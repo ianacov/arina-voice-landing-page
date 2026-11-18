@@ -199,15 +199,16 @@ Choose layouts according to the content.
 
 About:
 Use short paragraphs with clear emphasis on Arina’s teaching work.
-On desktop, the photo (about 300px wide) and the text block share one
-height. Confirmed facts appear as label–value rows under the text.
+On desktop, the photo (about 420px wide, close to its natural 2:3) and
+the text block share one height. Confirmed facts appear as label–value rows under the text.
 
 Course:
 Separate the course description from practical information.
 Present dates, format, duration, and price as readable labelled details when available.
 Use the deep olive panel. Show the intake date in large type
-(Montserrat 500) and the weekly program as rows: week label, title,
-short description.
+(Montserrat 500). From 1024px: two columns (description | details and
+button), then the four weeks as four columns (week label, title, short
+description). Below 1024px the weeks are rows.
 
 Topics («С чем приходят на занятия»):
 Rows on the main background with thin separators. Topic name at
@@ -219,8 +220,17 @@ Use distinct blocks only when there are genuinely separate offers.
 
 Contact:
 Finish with a short invitation and a clear working action.
-On desktop, the photo column is about 400px, smaller than the text.
 Primary filled button and secondary outlined button.
+Desktop (approved): extra vertical padding; square photo about 420px
+wide in a blob outline (--radius-blob-alt), related to the hero blob but
+with different curves. No badge on the photo.
+Mobile (approved): the photo is hidden; a plain olive Telegram plane icon
+(28px, not clickable, no circle) sits beside the heading «Напишите мне».
+
+Footer:
+Olive (--color-primary) background, light text. Navigation links at
+15px. Desktop: socials column left, navigation column centred, name
+right, copyright below a faint divider.
 
 Use section backgrounds, spacing, and typography to establish hierarchy.
 Avoid enclosing every section in a rounded container.
@@ -237,6 +247,7 @@ Use rectangular images with square corners or a subtle radius up to 8px.
 Avoid circular portraits, arches, blob masks, heavy filters, and artificial shadows.
 Approved exception: the hero portrait uses an organic blob outline
 (asymmetric border-radius, token --radius-blob; see references/reference4.jpeg).
+The contact photo uses a related blob (--radius-blob-alt).
 Keep all other photos rectangular.
 
 Do not repeat an image merely to fill space.
@@ -315,6 +326,21 @@ Avoid:
 - Decorative waveforms or microphones without a clear purpose.
 - Repetitive layouts chosen only for visual symmetry.
 - Generic promises of transformation.
+
+Approved exception — hand-drawn accents (references/reference5.png):
+thin pen-like SVG strokes (1.6px, round caps) in muted olive
+(--color-stroke #6B7260). No animation, shadows or gradients. Each
+accent is tied to a nearby heading, photo or block, and each uses a
+different shape:
+- Hero heading: a hand-drawn underline under «своим голосом», slightly
+  wider than the text; drawn as a background so it follows line breaks.
+- «Обо мне»: a loop line just right of the heading, level with the name
+  line (desktop ≥1024px only).
+- «С чем приходят на занятия»: a short double stroke attached to the
+  last word (mobile and desktop).
+Mobile shows two accents (underline and the double stroke). No accents on the dark course panel.
+Decorative SVGs use aria-hidden="true" and pointer-events: none.
+Do not add more than these without approval.
 
 Build character through clear Russian copy, deliberate spacing,
 consistent Montserrat typography, and the restrained color palette.

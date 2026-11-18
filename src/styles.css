@@ -11,6 +11,7 @@
   --color-border: #cdd3cc;
   --color-control-border: #788274;
   --color-focus: #48523a;
+  --color-stroke: #6b7260; /* muted olive for hand-drawn accents */
   /* Course section: deep olive panel with light text */
   --color-deep: #343c2b;
   --color-on-deep: #f2f4f2;
@@ -42,6 +43,7 @@
   --radius: 6px;
   --radius-pill: 999px;
   --radius-blob: 62% 38% 52% 48% / 46% 54% 46% 54%;
+  --radius-blob-alt: 44% 56% 42% 58% / 56% 44% 58% 42%;
   --header-h: 3.5rem;
   --transition: 180ms ease;
 }
@@ -121,6 +123,58 @@ a { color: var(--color-primary); }
   font-weight: 500;
 }
 .skip-link:focus { top: var(--space-2); }
+
+/* ---------- Hand-drawn accents (approved, references/reference5.png) ---------- */
+/* Underline as a background so it follows the text across line breaks.
+   Stroke colour in the data URI matches --color-stroke. */
+.hand-underline {
+  margin-inline: -0.12em;
+  padding: 0 0.12em 0.12em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M3 10C46 5 118 2 197 7' fill='none' stroke='%236b7260' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") no-repeat left bottom / 100% 0.32em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.nowrap { white-space: nowrap; }
+
+.stroke {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none;
+}
+.stroke path {
+  fill: none;
+  stroke: var(--color-stroke);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Situations: short double stroke attached to the last word of the heading. */
+.stroke--situations {
+  position: relative;
+  display: inline-block;
+  width: 2.6em;
+  height: auto;
+  margin-left: 0.3em;
+  vertical-align: 0.15em;
+  transform: rotate(-4deg);
+}
+
+/* About: desktop only, in the free space right after the heading. */
+.stroke--about { display: none; }
+
+@media (min-width: 1024px) {
+  .about-text { position: relative; }
+
+  .stroke--about {
+    display: block;
+    top: 1.25rem;
+    left: 16.5rem;
+    width: 11rem;
+    transform: rotate(-5deg);
+  }
+}
 
 /* ---------- Buttons and links ---------- */
 .button {
@@ -416,7 +470,7 @@ a[data-link]:not([href]) { display: none; }
 }
 @media (min-width: 1024px) {
   .about-grid {
-    grid-template-columns: 18.75rem 1fr;
+    grid-template-columns: 26.25rem 1fr;
     column-gap: var(--space-8);
   }
 }
@@ -459,10 +513,9 @@ a[data-link]:not([href]) { display: none; }
 }
 .course :focus-visible { outline-color: var(--color-linen); }
 
-.course-grid {
-  display: grid;
-  gap: var(--space-7);
-}
+/* DOM order (intro → facts → program) is the mobile order. */
+.course-grid { display: grid; }
+.program { margin-top: var(--space-7); }
 
 .course-label {
   color: var(--color-on-deep-muted);
@@ -486,7 +539,7 @@ a[data-link]:not([href]) { display: none; }
   font-size: var(--fs-h3);
 }
 .course-intro .prose { margin-top: var(--space-4); }
-.course-intro > .button { margin-top: var(--space-6); }
+.course-facts > .button { margin-top: var(--space-6); }
 
 .course .details > div { border-top-color: var(--color-deep-border); }
 .course .details dt { color: var(--color-on-deep-muted); }
@@ -531,11 +584,32 @@ a[data-link]:not([href]) { display: none; }
   font-weight: 500;
 }
 
+/* Desktop: intro | facts + button, then the four weeks in four columns. */
 @media (min-width: 1024px) {
   .course-grid {
     grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'intro   facts'
+      'program program';
     column-gap: var(--space-9);
     align-items: start;
+  }
+  .course-intro { grid-area: intro; }
+  .course-facts { grid-area: facts; padding-top: var(--space-7); }
+  .course-facts .details { margin-top: 0; }
+  .program { grid-area: program; margin-top: var(--space-8); }
+
+  .program-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: var(--space-6);
+    border-bottom: 0;
+  }
+  .program-list li {
+    grid-template-columns: none;
+    align-content: start;
+    gap: var(--space-2);
+    padding-block: var(--space-5) 0;
   }
 }
 
@@ -543,25 +617,47 @@ a[data-link]:not([href]) { display: none; }
 .contact-photo { display: none; }
 .contact-text .prose { margin-top: var(--space-5); }
 
+/* Mobile only: a plain Telegram icon beside the heading (decorative). */
+.contact-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.title-icon {
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  fill: var(--color-primary);
+}
 @media (min-width: 768px) {
+  .title-icon { display: none; }
+}
+
+@media (min-width: 768px) {
+  .contact { padding-block: calc(var(--section-gap) + var(--space-5)); }
   .contact-grid {
     display: grid;
-    grid-template-columns: minmax(0, 0.7fr) 1fr;
+    grid-template-columns: minmax(0, 0.75fr) 1fr;
     column-gap: var(--space-7);
     align-items: center;
   }
-  .contact-photo { display: block; }
+  .contact-photo {
+    display: block;
+    position: relative;
+  }
+  /* Blob outline related to the hero portrait, with different curves. */
   .contact-photo img {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
-    border-radius: var(--radius);
+    object-position: 45% 50%;
+    border-radius: var(--radius-blob-alt);
   }
 }
 @media (min-width: 1024px) {
   .contact-grid {
-    grid-template-columns: 25rem 1fr;
-    column-gap: var(--space-8);
+    grid-template-columns: 26.25rem 1fr;
+    column-gap: var(--space-9);
   }
 }
 
@@ -587,37 +683,49 @@ a[data-link]:not([href]) { display: none; }
   font-weight: 600;
   text-decoration: none;
 }
-.footer-note { color: var(--color-on-deep-muted); font-size: var(--fs-small); }
+.footer-note,
+.footer-heading {
+  color: var(--color-on-deep-muted);
+  font-size: var(--fs-small);
+}
+.footer-heading { margin-bottom: var(--space-1); }
 
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 var(--space-5);
+.footer-list {
   padding: 0;
   list-style: none;
 }
-.footer-links a {
+.footer-list a {
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   text-decoration: none;
 }
-.footer-links a:hover { text-decoration: underline; text-underline-offset: 0.3em; }
+.footer-list a:hover { text-decoration: underline; text-underline-offset: 0.3em; }
 
 .footer-copy {
   padding-top: var(--space-5);
-  border-top: 1px solid var(--color-deep-border);
+  border-top: 1px solid rgb(242 244 242 / 0.2);
   color: var(--color-on-deep-muted);
   font-size: var(--fs-small);
 }
 
+/* Desktop: socials left, navigation centred, name right. */
 @media (min-width: 768px) {
   .footer-grid {
-    grid-template-columns: 1fr auto;
-    align-items: center;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+      'social nav brand'
+      'copy   copy copy';
+    align-items: start;
+    column-gap: var(--space-7);
   }
-  .footer-copy { grid-column: 1 / -1; }
+  .footer-social { grid-area: social; }
+  .footer-nav { grid-area: nav; text-align: center; }
+  .footer-brand { grid-area: brand; text-align: right; }
+  .footer-copy { grid-area: copy; }
+  .footer-nav .footer-list { padding-top: 1.5rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

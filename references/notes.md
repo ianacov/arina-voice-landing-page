@@ -9,3 +9,9 @@
 
 # reference3.png
 I like the radius and the style of the action buttons
+
+# reference4.png
+I like the shape of the photo. It would look nice on a hero section.
+
+# reference5.png
+I like this kind of elements to be present on the page, where there is a lot of white space. Not too much though.

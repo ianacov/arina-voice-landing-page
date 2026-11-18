@@ -120,11 +120,14 @@ an agreed direct-contact destination. Do not invent a form or simulate
 a successful registration.
 
 Layout (see references/reference2.png): the section has its own
-background so it stands out. Left column: small label «Авторский курс,
-старт второго потока», the intake date in large type, course name, short
-description, labelled practical details, and «Записаться на курс».
-Right column: «Как идёт курс» with one row per week.
-On mobile, the program follows the enrolment action.
+background so it stands out.
+Desktop (approved): left column — small label «Авторский курс, старт
+второго потока», the intake date in large type, course name, short
+description. Right column — labelled practical details (format,
+duration, group, price) and «Записаться на курс». Below both, «Как идёт
+курс» with the four weeks in four columns.
+Mobile (approved, keep as is): label, date, name, description, details,
+enrolment button, then the weeks as stacked rows.
 
 Do not state how often new cohorts run until a schedule is confirmed.
 
@@ -188,6 +191,8 @@ Secondary action (outlined button):
 «Перейти в Telegram‑канал» → confirmed Telegram channel link.
 
 On desktop, keep the photograph smaller than the text column.
+The photo uses a blob outline similar to (not the same as) the hero.
+On mobile, a decorative Telegram icon sits beside the heading.
 
 Keep the two destinations distinct.
 Do not use placeholder links.
@@ -204,11 +209,13 @@ with light text.
 
 Include:
 - «Арина Иванова» linking to the top, with the line «Голос и самовыражение».
-- Links: Обо мне, Курс, Контакты, Telegram‑канал (confirmed channel link).
+- Navigation: Обо мне, Курс, Контакты (smaller text).
+- «Соцсети»: Instagram, Telegram (channel), ВКонтакте.
 - «© [год] Арина Иванова».
 
-On mobile, stack the items. On desktop, place the name and links in one
-row with the copyright line below.
+Desktop: socials in a column on the left, navigation in a centred
+column, name on the right; copyright line below.
+Mobile: name, navigation, socials, copyright, stacked.
 
 ## Implementation Notes
 
@@ -240,4 +247,5 @@ before publishing.
 | Course | Стоимость: «15 000 ₽ за весь курс» |
 | Course | Four-week program (titles and descriptions) |
 | Contact | Telegram channel content description |
-| src/site-config.js | Both links point to https://t.me/ (Telegram home page) |
+| src/site-config.js | Direct and channel links point to https://t.me/ (Telegram home page) |
+| src/site-config.js | Instagram → https://www.instagram.com/, ВКонтакте → https://vk.com/ (home pages; confirm Arina uses these networks) |
