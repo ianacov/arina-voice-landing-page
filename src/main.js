@@ -1,6 +1,19 @@
 import './styles.css';
 import { links } from './site-config.js';
 
+// Page-load reveal: start once the font and hero photo are ready (or after a
+// short timeout), so text doesn't jump on font swap and the photo doesn't pop in.
+const heroImg = document.querySelector('.hero-photo img');
+const assetsReady = Promise.all([
+  document.fonts ? document.fonts.ready : null,
+  heroImg && heroImg.decode ? heroImg.decode().catch(() => {}) : null,
+]);
+const timeout = new Promise((resolve) => setTimeout(resolve, 1500));
+Promise.race([assetsReady, timeout]).then(() => {
+  window.scrollTo(0, 0);
+  requestAnimationFrame(() => document.documentElement.classList.add('is-ready'));
+});
+
 // Apply confirmed contact links; buttons without a destination stay hidden (see CSS).
 document.querySelectorAll('[data-link]').forEach((el) => {
   const url = links[el.dataset.link];

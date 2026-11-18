@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" style="background: #f2f4f2">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,7 +15,21 @@
     />
     <meta property="og:image" content="/images/hero-800.webp" />
     <meta property="og:locale" content="ru_RU" />
-    <script>document.documentElement.classList.add('js');</script>
+    <!-- Critical: content hidden until styles, font and hero photo are ready (main.js adds
+         .is-ready), so an unstyled page is never visible. The background is set on <html>;
+         keep it in sync with --color-background in src/styles.css. Injected from JS because
+         an inline <style> breaks the Vite build on Windows. -->
+    <script>
+      document.documentElement.classList.add('js');
+      var hideUntilReady = document.createElement('style');
+      hideUntilReady.textContent = 'html.js:not(.is-ready) body{opacity:0}';
+      document.head.appendChild(hideUntilReady);
+      // Every load and reload starts at the top: no restored scroll position, no #section jump.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+      // Safety net: never keep the page hidden if main.js is slow or fails.
+      setTimeout(function () { document.documentElement.classList.add('is-ready'); }, 2500);
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

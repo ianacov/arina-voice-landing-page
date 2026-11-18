@@ -309,6 +309,19 @@ Use short transitions of approximately 150–200ms for interactive feedback.
 Keep all content visible without animation.
 Avoid parallax, scroll-jacking, custom cursors, and repeated entrance effects.
 
+Approved exception: a single, one-time page-load reveal of the first screen.
+- Never show an unstyled page: the background color is set inline and the
+  content stays hidden until styles, web font and hero photo are ready
+  (max ~1.5s), so text does not jump and the photo does not pop in.
+- Then a slow, calm sequence (~2.5s total): header fades in; headline and
+  hero text rise ~20px while fading in; hero photo fades in from a 3% zoom
+  over 2s; the rest of the page fades in after them (no movement).
+- Every load and reload starts at the top of the page (no restored scroll
+  position, no jump to a #section).
+- No entrance animations on scroll or in other sections.
+- Skipped entirely with reduced motion; content shows after 2s at most
+  even if the script fails.
+
 Respect reduced-motion preferences.
 Use smooth anchor scrolling only when reduced motion is not requested.
 

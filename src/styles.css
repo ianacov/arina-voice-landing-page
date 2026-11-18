@@ -46,6 +46,8 @@
   --radius-blob-alt: 44% 56% 42% 58% / 56% 44% 58% 42%;
   --header-h: 3.5rem;
   --transition: 180ms ease;
+  --reveal-duration: 1400ms;
+  --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @media (max-width: 359px) {
@@ -730,4 +732,35 @@ a[data-link]:not([href]) { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
+}
+
+/* One-time page-load reveal of the first screen (approved, see brief/design.md → Motion).
+   Hidden only when JS runs and motion is allowed; an inline timeout guarantees visibility. */
+@media (prefers-reduced-motion: no-preference) {
+  .js:not(.is-ready) :is(.site-header, .hero-title, .hero-photo img, .hero-text, main > :not(.hero), .site-footer) {
+    opacity: 0;
+  }
+
+  /* Everything below the hero simply fades in with it, so nothing sits there before the first screen. */
+  .is-ready :is(main > :not(.hero), .site-footer) {
+    animation: reveal-fade var(--reveal-duration) var(--reveal-ease) 900ms both;
+  }
+
+  .is-ready .site-header { animation: reveal-fade var(--reveal-duration) var(--reveal-ease) both; }
+  .is-ready .hero-title  { animation: reveal-rise var(--reveal-duration) var(--reveal-ease) 200ms both; }
+  .is-ready .hero-photo img { animation: reveal-photo 2000ms var(--reveal-ease) 400ms both; }
+  .is-ready .hero-text   { animation: reveal-rise var(--reveal-duration) var(--reveal-ease) 650ms both; }
+}
+
+@keyframes reveal-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes reveal-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes reveal-photo {
+  from { opacity: 0; transform: scale(1.03); }
+  to   { opacity: 1; transform: none; }
 }
