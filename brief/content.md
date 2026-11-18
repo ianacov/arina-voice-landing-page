@@ -4,7 +4,7 @@ Build a single-page, mobile-first website for Arina Ivanova, an actress and voic
 
 Follow brief/design.md for visual styling and brief/content.md for copy. This file defines the page structure and the purpose of each block.
 
-The page consists of a sticky header and six content sections. Do not add a footer.
+The page consists of a sticky header, six content sections, and a footer.
 
 ## 1. Sticky Header
 
@@ -32,16 +32,18 @@ Introduce the main purpose of the website immediately.
 Include:
 - A clear headline about speaking more freely and confidently.
 - A short first-person introduction from Arina.
-- A prominent portrait (photo1.png).
-- One primary button linking to #course.
+- A portrait (photo1.png), kept moderate in size.
+- Primary action: «Написать в Telegram» → confirmed direct-contact link.
+- Secondary action (text link): «Второй поток курса — [дата]» → #course.
 
 For mobile, use this reading order:
 1. Headline.
-2. Portrait.
+2. Portrait (landscape crop, not full-screen).
 3. Short description.
-4. Primary action.
+4. Actions.
 
 On desktop, place the text and portrait side by side.
+The portrait's height matches the text column (headline, description, actions).
 
 Do not use Arina’s name as the main headline; it already appears in the header.
 Avoid extra badges, statistics, or secondary offers.
@@ -65,7 +67,10 @@ If those details are unavailable, omit them from the rendered page
 and use the available introduction and teaching approach.
 
 On mobile, stack the content and photograph.
-On desktop, use a balanced text-and-image layout.
+On desktop, use a balanced text-and-image layout where the photo and
+text block share the same height (see references/reference1.png).
+Show education and experience as short labelled facts under the text
+once confirmed (e.g. Образование, Сцена, Преподаю).
 
 ## 4. What Brings People to These Classes
 
@@ -82,7 +87,11 @@ Keep each item brief and concrete.
 Use supportive language without diagnosing the visitor or promising
 guaranteed results.
 
-Present the items as a readable list or simple text blocks.
+Present each item as a row with two columns: a short topic name
+(Голос, Волнение, Запись, Выразительность, Самопрезентация) and a
+one-line description. Rows are separated by thin lines; the section
+uses the normal page background (see references/reference1.png).
+On mobile, the description sits under the topic name.
 Avoid enclosing every item in a decorative card.
 
 ## 5. Course and Current Intake
@@ -110,7 +119,14 @@ The enrolment button must lead to the actual registration process or
 an agreed direct-contact destination. Do not invent a form or simulate
 a successful registration.
 
-Show the course program beneath the main description and practical details.
+Layout (see references/reference2.png): the section has its own
+background so it stands out. Left column: small label «Авторский курс,
+старт второго потока», the intake date in large type, course name, short
+description, labelled practical details, and «Записаться на курс».
+Right column: «Как идёт курс» with one row per week.
+On mobile, the program follows the enrolment action.
+
+Do not state how often new cohorts run until a schedule is confirmed.
 
 The following four-week outline is provisional and requires Arina’s review.
 It must not be treated as a confirmed syllabus or duration.
@@ -166,10 +182,12 @@ Include:
 - Two clearly differentiated actions.
 
 Primary action:
-“Message Arina” → confirmed direct-contact link.
+«Написать в Telegram» → confirmed direct-contact link.
 
-Secondary action:
-“Read the channel” → confirmed Telegram channel link.
+Secondary action (outlined button):
+«Перейти в Telegram‑канал» → confirmed Telegram channel link.
+
+On desktop, keep the photograph smaller than the text column.
 
 Keep the two destinations distinct.
 Do not use placeholder links.
@@ -177,8 +195,20 @@ Do not use placeholder links.
 On mobile, do not include the photograph
 Give the primary action stronger visual emphasis.
 
-End the page here with comfortable bottom spacing.
-Do not add a separate footer.
+The footer follows this section.
+
+## 8. Footer
+
+Approved addition. Olive background (--color-primary, as in the buttons)
+with light text.
+
+Include:
+- «Арина Иванова» linking to the top, with the line «Голос и самовыражение».
+- Links: Обо мне, Курс, Контакты, Telegram‑канал (confirmed channel link).
+- «© [год] Арина Иванова».
+
+On mobile, stack the items. On desktop, place the name and links in one
+row with the copyright line below.
 
 ## Implementation Notes
 
@@ -189,3 +219,25 @@ Do not add a separate footer.
 - Remove navigation links to omitted sections.
 - Use one main heading and a consistent section-heading hierarchy.
 - Check sticky navigation, anchor positions, image crops, and button behavior.
+## Sample content to replace
+
+The prototype shows sample content so the client can review a complete
+page. None of it is confirmed. Replace or approve every item below
+before publishing.
+
+| Where | Sample content |
+|---|---|
+| Hero, course | Intake date «23 ноября» (shown as the course start) |
+| About | Third paragraph about using acting techniques in classes |
+| About | Образование: «Высшее актёрское образование» |
+| About | Сцена: «Спектакли, съёмки, озвучивание» |
+| About | Преподаю: «С 2019 года» |
+| Course | Course name «Свой голос» |
+| Course | Audience paragraph («Подойдёт, если…») |
+| Course | Формат: «Онлайн, в Zoom» |
+| Course | Длительность: «4 недели, 2 занятия в неделю по 90 минут» |
+| Course | Группа: «До 8 человек» |
+| Course | Стоимость: «15 000 ₽ за весь курс» |
+| Course | Four-week program (titles and descriptions) |
+| Contact | Telegram channel content description |
+| src/site-config.js | Both links point to https://t.me/ (Telegram home page) |

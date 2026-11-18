@@ -56,9 +56,22 @@ Use cool gray-green backgrounds, warm linen surfaces, deep olive accents, and da
 | --color-control-border | #788274 | Input boundaries |
 | --color-focus | #48523A | Keyboard focus outline |
 
+Course section (approved change): a deep olive panel so the main offer
+stands out.
+
+| Token | Value | Use |
+|---|---|---|
+| --color-deep | #343C2B | Course section background |
+| --color-on-deep | #F2F4F2 | Text on the course panel |
+| --color-on-deep-muted | #C9CFC4 | Secondary text on the course panel |
+| --color-deep-border | #5C6650 | Separators on the course panel |
+
+On the course panel, the date uses linen (#E7E1D5) and the button uses
+a linen background with dark text.
+
 Keep most of the page on the main background.
 Use linen and mist selectively to group related content.
-Use olive primarily for actions and small accents.
+Use olive primarily for actions, small accents, and the course panel.
 
 Avoid gradients, saturated colors, pure black backgrounds, and alternating section colors without a content-based reason.
 
@@ -147,7 +160,9 @@ Keep the mobile header compact.
 Show Arina’s approved public name and a small number of useful navigation options.
 
 If navigation fits comfortably, show direct links.
-If it requires a menu, use a clearly labelled menu button with an accessible expanded state.
+If it requires a menu, use a menu button with an accessible expanded state.
+Approved: on mobile the menu button is a three-line icon (accessible
+label «Меню») that turns into a cross while the menu is open.
 
 Do not invent a logo or professional title.
 Avoid a persistent header if it takes too much space on small screens.
@@ -167,6 +182,14 @@ A secondary action should appear as an understated text link.
 
 Give the portrait enough space to establish a personal presence without pushing the introduction far down the page.
 
+Approved sizing: on mobile, the portrait uses a 5:4 crop inside the blob outline.
+On desktop, the portrait column is about 400px wide and its height equals
+the text column (headline, introduction, actions); the image is cropped
+to fit with object-fit: cover.
+
+Actions: a primary button «Написать в Telegram» and a secondary text link
+to the course section showing the intake date.
+
 Do not force the opening section to fill the viewport.
 Avoid text overlays, floating badges, decorative shapes, and invented statistics.
 
@@ -176,13 +199,19 @@ Choose layouts according to the content.
 
 About:
 Use short paragraphs with clear emphasis on Arina’s teaching work.
+On desktop, the photo (about 300px wide) and the text block share one
+height. Confirmed facts appear as label–value rows under the text.
 
 Course:
 Separate the course description from practical information.
 Present dates, format, duration, and price as readable labelled details when available.
+Use the deep olive panel. Show the intake date in large type
+(Montserrat 500) and the weekly program as rows: week label, title,
+short description.
 
-Topics:
-Use a simple list or open text blocks.
+Topics («С чем приходят на занятия»):
+Rows on the main background with thin separators. Topic name at
+subheading size (weight 500) on the left, description on the right.
 Do not automatically turn three topics into three identical cards.
 
 Other offers:
@@ -190,6 +219,8 @@ Use distinct blocks only when there are genuinely separate offers.
 
 Contact:
 Finish with a short invitation and a clear working action.
+On desktop, the photo column is about 400px, smaller than the text.
+Primary filled button and secondary outlined button.
 
 Use section backgrounds, spacing, and typography to establish hierarchy.
 Avoid enclosing every section in a rounded container.
@@ -204,6 +235,9 @@ Avoid awkward crops through hands or joints.
 
 Use rectangular images with square corners or a subtle radius up to 8px.
 Avoid circular portraits, arches, blob masks, heavy filters, and artificial shadows.
+Approved exception: the hero portrait uses an organic blob outline
+(asymmetric border-radius, token --radius-blob; see references/reference4.jpeg).
+Keep all other photos rectangular.
 
 Do not repeat an image merely to fill space.
 Set image dimensions to prevent layout shifts.
@@ -211,19 +245,21 @@ Provide appropriately sized assets for mobile screens.
 
 ## Buttons and links
 
-Primary buttons:
-- Olive background.
-- White text.
+Primary buttons (approved style, see references/reference3.jpg):
+- Pill shape (fully rounded ends).
+- Olive background with a 2px olive border.
+- White text, sentence case (no uppercase).
 - Montserrat, weight 600.
-- Minimum height of 48px.
-- Horizontal padding of 20–24px.
-- Corner radius of 6–8px.
+- Minimum height of 52px.
+- Horizontal padding of about 32px.
+- No shadow.
 
 On narrow screens, the main action may use the full content width.
 On wider screens, size buttons to their labels.
 
 Secondary actions:
-Use underlined text links or restrained outlined buttons.
+Pill-shaped outlined button: transparent background, 2px olive border,
+olive text. Underlined text links remain for inline links.
 
 Use specific Russian labels such as:
 - «О курсе»

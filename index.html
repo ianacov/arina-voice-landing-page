@@ -35,8 +35,9 @@
           type="button"
           aria-expanded="false"
           aria-controls="site-nav"
+          aria-label="Меню"
         >
-          Меню
+          <span class="menu-icon" aria-hidden="true"><span></span></span>
         </button>
         <nav id="site-nav" class="site-nav" aria-label="Основная навигация">
           <ul>
@@ -58,10 +59,10 @@
           <figure class="hero-photo">
             <img
               src="/images/hero-800.webp"
-              srcset="/images/hero-480.webp 480w, /images/hero-800.webp 800w"
-              sizes="(min-width: 1024px) 460px, (min-width: 768px) 50vw, 100vw"
-              width="800"
-              height="1000"
+              srcset="/images/hero-800.webp 800w, /images/hero-1536.webp 1536w"
+              sizes="(min-width: 1024px) 400px, (min-width: 768px) 40vw, 100vw"
+              width="1536"
+              height="1024"
               alt="Арина Иванова улыбается, касаясь рукой шеи"
               fetchpriority="high"
             />
@@ -72,7 +73,10 @@
               как звучит ваш голос сейчас, что мешает говорить свободно и что
               поможет звучать спокойнее и выразительнее.
             </p>
-            <a class="button" href="#course">О курсе</a>
+            <div class="actions">
+              <a class="button" data-link="direct">Написать в Telegram</a>
+              <a class="button button--outline" href="#course">Второй поток курса&nbsp;— 23&nbsp;ноября</a>
+            </div>
           </div>
         </div>
       </section>
@@ -94,13 +98,6 @@
           <div class="about-text">
             <h2 id="about-title">Обо мне</h2>
             <p class="about-name">Арина Иванова</p>
-            <!-- dev:start -->
-            <div class="dev-note" role="note">
-              <strong>Черновик.</strong> Текст ниже нужно согласовать с Ариной.
-              Нет данных: образование, профессиональный опыт, почему она
-              преподаёт, как актёрский опыт влияет на занятия.
-            </div>
-            <!-- dev:end -->
             <div class="prose">
               <p>
                 Я актриса. В моей профессии голос&nbsp;— главный рабочий
@@ -112,7 +109,18 @@
                 курс. Мне важно, чтобы человек не подражал чужой манере, а
                 услышал свой голос и научился им пользоваться.
               </p>
+              <p>
+                На занятиях я беру то, чем пользуются актёры: упражнения на
+                дыхание и опору, работу с текстом, небольшие этюды. Но цель
+                другая&nbsp;— не сыграть роль, а спокойно говорить своим голосом
+                на работе, на выступлении и в обычном разговоре.
+              </p>
             </div>
+            <dl class="details">
+              <div><dt>Образование</dt><dd>Высшее актёрское образование</dd></div>
+              <div><dt>Сцена</dt><dd>Спектакли, съёмки, озвучивание</dd></div>
+              <div><dt>Преподаю</dt><dd>С 2019 года</dd></div>
+            </dl>
           </div>
         </div>
       </section>
@@ -121,95 +129,95 @@
       <section class="section situations" aria-labelledby="situations-title">
         <div class="container split">
           <h2 id="situations-title">С чем приходят на&nbsp;занятия</h2>
-          <ul class="situation-list">
-            <li>Голос становится тише, когда на вас смотрят.</li>
-            <li>На выступлении вы волнуетесь и теряете мысль.</li>
-            <li>Свой голос на записи кажется чужим.</li>
-            <li>Хочется, чтобы речь звучала живее и разнообразнее.</li>
-            <li>Трудно представиться и рассказать о своей работе.</li>
-          </ul>
+          <dl class="situation-list">
+            <div>
+              <dt>Голос</dt>
+              <dd>Становится тише, когда на вас смотрят.</dd>
+            </div>
+            <div>
+              <dt>Волнение</dt>
+              <dd>На выступлении вы волнуетесь и теряете мысль.</dd>
+            </div>
+            <div>
+              <dt>Запись</dt>
+              <dd>Свой голос на записи кажется чужим.</dd>
+            </div>
+            <div>
+              <dt>Выразительность</dt>
+              <dd>Хочется, чтобы речь звучала живее и разнообразнее.</dd>
+            </div>
+            <div>
+              <dt>Самопрезентация</dt>
+              <dd>Трудно представиться и рассказать о своей работе.</dd>
+            </div>
+          </dl>
         </div>
       </section>
 
       <!-- Course -->
       <section class="section course" id="course" aria-labelledby="course-title">
-        <div class="container">
-          <div class="course-grid">
-            <div class="course-intro">
-              <h2 id="course-title">Авторский курс</h2>
-              <!-- dev:start -->
-              <div class="dev-note" role="note">
-                <strong>Нужно уточнить:</strong> название курса, описание,
-                для кого он.
-              </div>
-              <!-- dev:end -->
-              <div class="prose">
-                <p>
-                  Курс о голосе и самовыражении. Мы работаем с дыханием,
-                  дикцией, темпом и интонацией и пробуем говорить перед
-                  группой&nbsp;— шаг за шагом, в спокойном темпе.
-                </p>
-              </div>
+        <div class="container course-grid">
+          <div class="course-intro">
+            <!-- Intake details: update the label, date and details for each new cohort. -->
+            <h2 id="course-title" class="course-label">Авторский курс, старт второго потока</h2>
+            <p class="course-date">23 ноября</p>
+            <h3 class="course-name">«Свой голос»</h3>
+            <div class="prose">
+              <p>
+                Курс о голосе и самовыражении. Мы работаем с дыханием,
+                дикцией, темпом и интонацией и пробуем говорить перед
+                группой&nbsp;— шаг за шагом, в спокойном темпе.
+              </p>
+              <p>
+                Подойдёт, если вы хотите говорить спокойнее и увереннее на
+                работе, на выступлениях или в кадре. Специальная подготовка
+                не нужна.
+              </p>
             </div>
-
-            <!-- Intake details: update this block for each new cohort. -->
-            <aside class="intake" aria-labelledby="intake-title">
-              <h3 id="intake-title" class="intake-status">
-                Идёт набор во второй поток
-              </h3>
-              <!-- dev:start -->
-              <div class="dev-note" role="note">
-                <strong>Нет данных:</strong> дата старта (23 ноября&nbsp;— старт
-                или конец набора?), формат и платформа, длительность и
-                расписание, цена и что в неё входит, ссылка для записи.
-              </div>
-              <!-- dev:end -->
-              <dl class="details">
-                <!-- Add confirmed details as pairs, e.g.:
-                <div><dt>Старт</dt><dd>…</dd></div>
-                <div><dt>Формат</dt><dd>…</dd></div>
-                <div><dt>Длительность</dt><dd>…</dd></div>
-                <div><dt>Стоимость</dt><dd>…</dd></div>
-                -->
-              </dl>
-              <a class="button" data-link="direct">Записаться на курс</a>
-            </aside>
+            <dl class="details">
+              <div><dt>Формат</dt><dd>Онлайн, в Zoom</dd></div>
+              <div><dt>Длительность</dt><dd>4 недели, 2 занятия в неделю по 90 минут</dd></div>
+              <div><dt>Группа</dt><dd>До 8 человек</dd></div>
+              <div><dt>Стоимость</dt><dd>15&nbsp;000&nbsp;₽ за весь курс</dd></div>
+            </dl>
+            <a class="button button--light" data-link="direct">Записаться на курс</a>
           </div>
 
           <div class="program">
-            <h3 class="program-title">Программа</h3>
-            <!-- dev:start -->
-            <div class="dev-note" role="note">
-              <strong>Предварительно.</strong> Программа и длительность не
-              подтверждены&nbsp;— нужна проверка Арины.
-            </div>
-            <!-- dev:end -->
+            <h3 class="program-title">Как идёт курс</h3>
             <ol class="program-list">
               <li>
                 <p class="week">Неделя 1</p>
-                <h4>Знакомство со своим голосом</h4>
-                <p>Как вы привыкли звучать, дышать и говорить.</p>
+                <div>
+                  <h4>Знакомство со своим голосом</h4>
+                  <p>Как вы привыкли звучать, дышать и говорить.</p>
+                </div>
               </li>
               <li>
                 <p class="week">Неделя 2</p>
-                <h4>Ясность и выразительность</h4>
-                <p>Дикция, темп, паузы и интонация.</p>
+                <div>
+                  <h4>Ясность и выразительность</h4>
+                  <p>Дикция, темп, паузы и интонация.</p>
+                </div>
               </li>
               <li>
                 <p class="week">Неделя 3</p>
-                <h4>Говорить при других</h4>
-                <p>Практика выступления перед группой: как донести свою мысль.</p>
+                <div>
+                  <h4>Говорить при других</h4>
+                  <p>Практика выступления перед группой: как донести свою мысль.</p>
+                </div>
               </li>
               <li>
                 <p class="week">Неделя 4</p>
-                <h4>Применить на практике</h4>
-                <p>
-                  Работа над личной задачей: выступлением, самопрезентацией
-                  или видеозаписью.
-                </p>
+                <div>
+                  <h4>Применить на практике</h4>
+                  <p>
+                    Работа над личной задачей: выступлением, самопрезентацией
+                    или видеозаписью.
+                  </p>
+                </div>
               </li>
             </ol>
-            <a class="button" data-link="direct">Записаться на курс</a>
           </div>
         </div>
       </section>
@@ -221,7 +229,7 @@
             <img
               src="/images/contact-800.webp"
               srcset="/images/contact-800.webp 800w, /images/contact-1200.webp 1200w"
-              sizes="(min-width: 1024px) 560px, 50vw"
+              sizes="(min-width: 1024px) 400px, 40vw"
               width="1200"
               height="900"
               alt="Арина Иванова за столом с блокнотом и ноутбуком"
@@ -240,20 +248,31 @@
                 заниматься, и актуальные цены.
               </p>
             </div>
-            <!-- dev:start -->
-            <div class="dev-note" role="note">
-              <strong>Нет ссылок.</strong> Кнопки «Написать Арине» и «Читать
-              канал» появятся, когда ссылки будут указаны в
-              <code>src/site-config.js</code>.
-            </div>
-            <!-- dev:end -->
             <div class="actions">
-              <a class="button" data-link="direct">Написать Арине</a>
-              <a class="text-link" data-link="channel">Читать канал</a>
+              <a class="button" data-link="direct">Написать в Telegram</a>
+              <a class="button button--outline" data-link="channel">Перейти в Telegram&#8209;канал</a>
             </div>
           </div>
         </div>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <a class="footer-name" href="#top">Арина Иванова</a>
+          <p class="footer-note">Голос и самовыражение</p>
+        </div>
+        <nav aria-label="Навигация в подвале">
+          <ul class="footer-links">
+            <li><a href="#about">Обо мне</a></li>
+            <li><a href="#course">Курс</a></li>
+            <li><a href="#contact">Контакты</a></li>
+            <li><a data-link="channel">Telegram&#8209;канал</a></li>
+          </ul>
+        </nav>
+        <p class="footer-copy">© 2026 Арина Иванова</p>
+      </div>
+    </footer>
   </body>
 </html>
