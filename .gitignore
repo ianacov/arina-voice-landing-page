@@ -7,3 +7,6 @@ dist/
 Thumbs.db
 npm-debug.log*
 .vite/
+
+# Локальные настройки Claude Code (скиллы), в репозиторий не нужны
+.claude/
