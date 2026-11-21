@@ -44,12 +44,18 @@ function initVideo(root) {
   }, { once: true });
 }
 
-// Отзывы на мобильном: кнопка «дальше» и полоса прогресса.
-function initReviews(track) {
-  const next = document.querySelector('[data-reviews-next]');
-  const bar = document.querySelector('[data-reviews-bar]');
+// Горизонтальная лента карточек (форматы, отзывы): кнопка «дальше»
+// и полоса прогресса. Если карточки помещаются без прокрутки,
+// кнопка и полоса прячутся.
+function initSlider(root) {
+  const track = root.querySelector('[data-slider-track]');
+  const controls = root.querySelector('[data-slider-controls]');
+  const next = root.querySelector('[data-slider-next]');
+  const bar = root.querySelector('[data-slider-bar]');
 
   const update = () => {
+    const scrollable = track.scrollWidth > track.clientWidth + 1;
+    controls.hidden = !scrollable;
     const visible = (track.scrollLeft + track.clientWidth) / track.scrollWidth;
     bar.style.width = `${Math.min(1, visible) * 100}%`;
   };
@@ -67,10 +73,8 @@ function initReviews(track) {
   });
 
   track.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
+  new ResizeObserver(update).observe(track);
 }
 
 document.querySelectorAll('[data-video]').forEach(initVideo);
-const reviews = document.querySelector('[data-reviews]');
-if (reviews) initReviews(reviews);
+document.querySelectorAll('[data-slider]').forEach(initSlider);

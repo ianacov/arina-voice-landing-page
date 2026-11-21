@@ -914,47 +914,162 @@ a[data-todo] {
   }
 }
 
+/* ---------- Горизонтальная лента карточек (отзывы на мобильном) ---------- */
+
+/* Лента на всю ширину окна; первая карточка выровнена по контейнеру.
+   Кнопка и полоса прогресса прячутся скриптом, если всё помещается. */
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.slider__track {
+  --edge: max(var(--gutter), (100% - var(--container)) / 2);
+  display: flex;
+  align-items: stretch;
+  gap: clamp(16px, 16px + 8 * var(--fl), 24px);
+  overflow-x: auto;
+  padding: 2px var(--edge);
+  scroll-padding-inline: var(--edge);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.slider__track::-webkit-scrollbar {
+  display: none;
+}
+
+.slider__track:focus-visible {
+  outline-offset: -3px;
+}
+
+.slider__track > * {
+  flex: none;
+  scroll-snap-align: start;
+}
+
+.slider__controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.slider__controls[hidden] {
+  display: none;
+}
+
+.slider__next {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1.5px solid var(--color-burgundy);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  color: var(--color-burgundy);
+  cursor: pointer;
+}
+
+.slider__progress {
+  flex: 1;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-placeholder);
+  overflow: hidden;
+}
+
+.slider__progress span {
+  display: block;
+  width: 33%;
+  height: 100%;
+  background: var(--color-burgundy);
+}
+
 /* ---------- 7. Форматы работы ---------- */
 
 .formats {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 28px + 20 * var(--fl), 48px);
   background: var(--color-cream);
   padding: var(--section-y) 0;
 }
 
-.formats__inner {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(28px, 28px + 20 * var(--fl), 48px);
-}
-
+/* Телефон: карточки столбиком */
 .formats__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: clamp(16px, 16px + 8 * var(--fl), 24px);
+  gap: 32px clamp(16px, 16px + 8 * var(--fl), 24px); /* между рядами — место для плашки «Рекомендую» */
+}
+
+/* Планшет 640–1023: по две в ряд, пятая по центру.
+   Сетка из 4 колонок, карточка занимает 2. */
+@media (min-width: 640px) {
+  .formats__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .formats__grid > .card {
+    grid-column: span 2;
+  }
+
+  .formats__grid > .card:nth-child(5) {
+    grid-column: 2 / span 2;
+  }
+}
+
+/* Десктоп: 3 карточки в первом ряду, 2 во втором по центру.
+   Сетка из 6 колонок, карточка занимает 2. */
+@media (min-width: 1024px) {
+  .formats .h2 {
+    text-align: left;
+  }
+
+  .formats__grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .formats__grid > .card:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  .formats__grid > .card:nth-child(5) {
+    grid-column: span 2;
+  }
 }
 
 .card {
+  --card-pad: clamp(20px, 20px + 4 * var(--fl), 24px);
   display: flex;
   flex-direction: column;
-  gap: clamp(14px, 14px + 2 * var(--fl), 16px);
-  padding: clamp(16px, 16px + 4 * var(--fl), 20px);
+  gap: 16px;
+  padding: var(--card-pad);
   border: 1px solid var(--color-border);
   border-radius: clamp(20px, 20px + 4 * var(--fl), 24px);
   background: var(--color-white);
 }
 
+/* Рамка 2px: 1px — сама рамка (как у соседних карточек) + 1px снаружи
+   тенью. Так содержимое стоит вровень с соседними при любом масштабе. */
 .card--featured {
-  border: 2px solid var(--color-burgundy);
+  position: relative;
+  border-color: var(--color-burgundy);
+  box-shadow: 0 0 0 1px var(--color-burgundy);
 }
 
-.card__photo {
-  height: clamp(180px, 180px + 40 * var(--fl), 220px);
-}
-
+/* Плашка «Рекомендую» сидит на верхней рамке карточки:
+   половина над карточкой, половина на ней. В потоке места не занимает,
+   поэтому название стоит на одной высоте с соседними карточками. */
 .card__badge {
   position: absolute;
-  left: clamp(12px, 12px + 2 * var(--fl), 14px);
-  top: clamp(12px, 12px + 2 * var(--fl), 14px);
+  top: -1px; /* центр плашки — на линии рамки */
+  left: var(--card-pad);
+  transform: translateY(-50%);
+  white-space: nowrap;
   padding: clamp(7px, 7px + 1 * var(--fl), 8px) clamp(14px, 14px + 2 * var(--fl), 16px);
   border-radius: var(--radius-pill);
   background: var(--color-burgundy);
@@ -964,55 +1079,83 @@ a[data-todo] {
 }
 
 .card__title {
-  font-size: clamp(22px, 22px + 4 * var(--fl), 26px);
+  font-size: clamp(22px, 22px + 2 * var(--fl), 24px);
   line-height: 1.2;
   font-weight: 600;
 }
 
-.card__text {
-  font-size: clamp(15px, 15px + 1 * var(--fl), 16px);
-  line-height: 1.5;
+.card__subtitle {
+  margin-top: -10px;
+  font-size: 15px;
+  line-height: 1.45;
 }
 
+.card__facts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+}
+
+.card__facts dt {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.card__facts dd {
+  margin: 2px 0 0;
+  font-size: clamp(15px, 15px + 1 * var(--fl), 16px);
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+/* Цена прижата к низу карточки, кнопки в ряду на одной линии */
 .card__price {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.card__price-label {
+  font-size: 13px;
+}
+
+.card__price-value {
   font-size: clamp(22px, 22px + 2 * var(--fl), 24px);
   font-weight: 600;
+  color: var(--color-burgundy);
 }
 
-/* Планшет: карточки в 2 колонки, третья — во всю ширину */
-@media (min-width: 640px) and (max-width: 1023.98px) {
-  .formats__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .card:last-child {
-    grid-column: 1 / -1;
-  }
-
-  .card:last-child .card__photo {
-    height: clamp(180px, 30vw, 300px);
-  }
+.card__price-note {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
 }
 
-@media (min-width: 1024px) {
-  .formats .h2 {
-    text-align: left;
-  }
-
-  .formats__grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+.card__price-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-@media (min-width: 640px) {
-  .card__title {
-    margin-top: 4px;
-  }
+.card__price-list li {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--color-text);
+}
 
-  .card__text {
-    flex: 1;
-    line-height: 1.55;
-  }
+.card__note {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 /* ---------- 8. Авторский курс ---------- */
@@ -1068,7 +1211,7 @@ a[data-todo] {
 }
 
 .course__format {
-  font-size: 15px;
+  font-size: clamp(15px, 15px + 2 * var(--fl), 17px);
   font-weight: 500;
   color: var(--color-mustard);
 }
@@ -1080,6 +1223,55 @@ a[data-todo] {
   color: var(--color-white);
 }
 
+.course__label {
+  font-weight: 600;
+  color: var(--color-mustard);
+}
+
+/* Тарифы: две карточки рядом; на очень узких экранах — столбиком */
+.course__tariffs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  max-width: 560px;
+}
+
+.tariff {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: clamp(16px, 16px + 4 * var(--fl), 20px);
+  border: 1px solid rgba(235, 184, 23, 0.4);
+  border-radius: 16px;
+}
+
+.tariff__name {
+  font-size: clamp(18px, 18px + 2 * var(--fl), 20px);
+  font-weight: 600;
+  color: var(--color-mustard);
+}
+
+.tariff__text {
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--color-white);
+}
+
+.tariff__price {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: clamp(22px, 22px + 2 * var(--fl), 24px);
+  font-weight: 600;
+  color: var(--color-mustard);
+}
+
+.course__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
 .course__btn {
   min-height: clamp(56px, 56px + 4 * var(--fl), 60px);
   font-size: clamp(17px, 17px + 1 * var(--fl), 18px);
@@ -1089,12 +1281,19 @@ a[data-todo] {
   outline-color: var(--color-mustard);
 }
 
+.course__note {
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--color-white-75);
+}
+
 @media (min-width: 1024px) {
   /* Текст слева по центру фото, фото справа */
   .course__inner {
     display: grid;
     grid-template-columns: minmax(0, 560fr) minmax(0, 560fr);
-    grid-template-rows: 1fr auto auto auto auto 1fr;
+    grid-template-rows: 1fr auto auto auto auto auto 1fr;
     column-gap: 6.67%;
     row-gap: 0;
   }
@@ -1103,8 +1302,11 @@ a[data-todo] {
   .course__title { text-align: left; }
   .course__meta { grid-area: 3 / 1; margin-top: 24px; }
   .course__text { grid-area: 4 / 1; margin-top: 24px; }
-  .course__btn { grid-area: 5 / 1; margin-top: 32px; justify-self: start; padding: 0 40px; }
-  .course__photo { grid-area: 1 / 2 / 7 / 3; align-self: center; aspect-ratio: 4 / 3; max-height: none; }
+  .course__tariffs { grid-area: 5 / 1; margin-top: 24px; }
+  .course__cta { grid-area: 6 / 1; margin-top: 32px; align-items: flex-start; }
+  .course__btn { padding: 0 40px; }
+  .course__note { text-align: left; }
+  .course__photo { grid-area: 1 / 2 / 8 / 3; align-self: center; aspect-ratio: 4 / 3; max-height: none; }
 }
 
 /* ---------- 9. Отзывы ---------- */
@@ -1116,28 +1318,8 @@ a[data-todo] {
   gap: clamp(28px, 28px + 20 * var(--fl), 48px);
 }
 
-/* До 1024: горизонтальная лента с кнопкой и прогрессом */
-.reviews__track {
-  --edge: max(var(--gutter), (100% - var(--container)) / 2);
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding: 0 var(--edge);
-  scroll-padding-inline: var(--edge);
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-
-.reviews__track::-webkit-scrollbar {
-  display: none;
-}
-
-.reviews__track:focus-visible {
-  outline-offset: -3px;
-}
-
 .review {
-  flex: 0 0 clamp(260px, 74vw, 340px);
+  width: clamp(260px, 74vw, 340px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1145,7 +1327,6 @@ a[data-todo] {
   padding: clamp(20px, 20px + 8 * var(--fl), 28px);
   border: 1px solid var(--color-placeholder);
   border-radius: clamp(16px, 16px + 4 * var(--fl), 20px);
-  scroll-snap-align: start;
 }
 
 .review__text p {
@@ -1176,42 +1357,7 @@ a[data-todo] {
   font-weight: 600;
 }
 
-.reviews__controls {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.reviews__next {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border: 1.5px solid var(--color-burgundy);
-  border-radius: var(--radius-pill);
-  background: var(--color-white);
-  color: var(--color-burgundy);
-  cursor: pointer;
-}
-
-.reviews__progress {
-  flex: 1;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--color-placeholder);
-  overflow: hidden;
-}
-
-.reviews__progress span {
-  display: block;
-  width: 33%;
-  height: 100%;
-  background: var(--color-burgundy);
-}
-
+/* Десктоп: три отзыва сеткой, без прокрутки */
 @media (min-width: 1024px) {
   .reviews .h2 {
     text-align: left;
@@ -1227,6 +1373,10 @@ a[data-todo] {
     overflow: visible;
   }
 
+  .reviews__track > .review {
+    width: auto;
+  }
+
   .reviews__track:focus-visible {
     outline: none;
   }
@@ -1235,7 +1385,7 @@ a[data-todo] {
     line-height: 1.6;
   }
 
-  .reviews__controls {
+  .reviews .slider__controls {
     display: none;
   }
 }

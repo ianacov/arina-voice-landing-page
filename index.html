@@ -177,35 +177,84 @@
   </section>
 
   <section class="formats" id="formats" aria-labelledby="formats-title">
-    <div class="container formats__inner">
+    <div class="container">
       <h2 class="h2 formats__title" id="formats-title">Форматы работы</h2>
+    </div>
+    <!-- Тексты форматов — от клиента, дословно. Цены — в src/site-config.js -->
+    <div class="container">
       <ul class="formats__grid">
         <li class="card">
-          <div class="ph card__photo"><span>Фото</span></div>
-          <h3 class="card__title">Диагностика голоса</h3>
-          <p class="card__text">Первое знакомство: слушаем ваш голос, разбираем задачу и составляем личный план занятий.</p>
-          <p class="card__price">{{ formats.diagnostics.price }}</p>
-          <a class="btn card__btn" {{href formats.diagnostics.more }}>Подробнее</a>
-        </li>
-        <li class="card card--featured">
-          <div class="ph card__photo"><span>Фото</span><span class="card__badge">Рекомендую</span></div>
-          <h3 class="card__title">Пакет занятий</h3>
-          <p class="card__text">Регулярная работа с голосом: дыхание, опора, дикция и подача. Результат, который остаётся.</p>
-          <p class="card__price">{{ formats.package.price }}</p>
-          <a class="btn card__btn" {{href formats.package.more }}>Подробнее</a>
+          <h3 class="card__title">Первичная консультация</h3>
+          <dl class="card__facts">
+            <div><dt>Цель</dt><dd>Диагностика и стратегия работы.</dd></div>
+            <div><dt>Что входит</dt><dd>Анализ запроса, оценка речевого профиля, план развития.</dd></div>
+            <div><dt>Формат</dt><dd>1 час, онлайн.</dd></div>
+          </dl>
+          <div class="card__price">
+            <p class="card__price-label">Стоимость:</p>
+            <p class="card__price-value">{{ formats.consultation.price }}</p>
+          </div>
+          <a class="btn card__btn" {{href formats.consultation.more }}>Подробнее</a>
         </li>
         <li class="card">
-          <div class="ph card__photo"><span>Фото</span></div>
-          <h3 class="card__title">Выступления и деловое общение</h3>
-          <p class="card__text">Готовимся к докладу, презентации или переговорам: голос, подача и уверенность перед любой аудиторией.</p>
-          <p class="card__price">{{ formats.speaking.price }}</p>
-          <a class="btn card__btn" {{href formats.speaking.more }}>Подробнее</a>
+          <h3 class="card__title">Индивидуальные сессии</h3>
+          <p class="card__subtitle">(для точечной работы)</p>
+          <div class="card__price">
+            <ul class="card__price-list">
+              <li><span>Онлайн-занятие (1 час)</span><span class="card__price-value">{{ formats.sessions.online }}</span></li>
+              <li><span>Занятие в классе (1 час)</span><span class="card__price-value">{{ formats.sessions.studio }}</span></li>
+            </ul>
+          </div>
+          <a class="btn card__btn" {{href formats.sessions.more }}>Подробнее</a>
+        </li>
+        <li class="card card--featured">
+          <p class="card__badge">Рекомендую</p>
+          <h3 class="card__title">Пакет "Базовый"</h3>
+          <dl class="card__facts">
+            <div><dt>Цель</dt><dd>Системное формирование навыка.</dd></div>
+            <div><dt>Что входит</dt><dd>4 занятия по программе + 5-е занятие в подарок для закрепления результата.</dd></div>
+            <div><dt>Формат</dt><dd>онлайн или в студии.</dd></div>
+          </dl>
+          <div class="card__price">
+            <p class="card__price-label">Стоимость:</p>
+            <p class="card__price-value">{{ formats.basic.online }} <span class="card__price-note">(онлайн)</span></p>
+            <p class="card__price-value">{{ formats.basic.studio }} <span class="card__price-note">(в классе)</span></p>
+          </div>
+          <a class="btn card__btn" {{href formats.basic.more }}>Подробнее</a>
+        </li>
+        <li class="card">
+          <h3 class="card__title">Интенсивный курс "Глубокое погружение"</h3>
+          <dl class="card__facts">
+            <div><dt>Цель</dt><dd>Качественный скачок за месяц.</dd></div>
+            <div><dt>Что входит</dt><dd>8 занятий с полной поддержкой.</dd></div>
+            <div><dt>Формат</dt><dd>онлайн или комбинированный (4 онлайн + 4 в студии).</dd></div>
+          </dl>
+          <div class="card__price">
+            <p class="card__price-label">Стоимость:</p>
+            <p class="card__price-value">{{ formats.intensive.price }}</p>
+          </div>
+          <a class="btn card__btn" {{href formats.intensive.more }}>Подробнее</a>
+        </li>
+        <li class="card">
+          <h3 class="card__title">Премиум-программа "Полное ведение"*</h3>
+          <dl class="card__facts">
+            <div><dt>Цель</dt><dd>Комплексная индивидуальная работа для трансформации коммуникативного стиля.</dd></div>
+            <div><dt>Что входит</dt><dd>16 сессий, персональный аудит, приоритетная коммуникация.</dd></div>
+            <div><dt>Формат</dt><dd>Индивидуальный микс онлайн/офлайн.</dd></div>
+          </dl>
+          <div class="card__price">
+            <p class="card__price-label">Стоимость:</p>
+            <p class="card__price-value">{{ formats.premium.price }}</p>
+            <p class="card__note">*доступно для ограниченного числа клиентов</p>
+          </div>
+          <a class="btn card__btn" {{href formats.premium.more }}>Подробнее</a>
         </li>
       </ul>
     </div>
   </section>
 
   <section class="course" id="course" aria-labelledby="course-title">
+    <!-- Тексты курса — от клиента, дословно. Дата и цены — в src/site-config.js -->
     <div class="container course__inner">
       <div class="course__head">
         <p class="course__eyebrow">Авторский курс</p>
@@ -213,12 +262,26 @@
       </div>
       <div class="ph course__photo"><span>Фото</span></div>
       <div class="course__meta">
-        <p class="course__start only-m">Старт — {{ course.start }}</p>
-        <p class="course__format only-m">Онлайн, в группе</p>
-        <p class="course__start only-d">Старт {{ course.start }}, онлайн, в группе</p>
+        <p class="course__start">Старт — {{ course.start }}</p>
+        <p class="course__format">Продолжительность 1 месяц</p>
       </div>
-      <p class="course__text">Групповой курс о голосе и проявленности: дыхание, звуковысотный диапазон, уверенная подача, публичные выступления и деловое общение. Практика каждую неделю и обратная связь от меня.</p>
-      <a class="btn btn--lg course__btn" {{href links.courseMore }}>Подробнее о курсе</a>
+      <p class="course__text"><span class="course__label">Цель:</span> откроем Ваш истинный голос, поработаем над речью и пойдем в вашу проявленность</p>
+      <ul class="course__tariffs">
+        <li class="tariff">
+          <h3 class="tariff__name">Базовый</h3>
+          <p class="tariff__text">8 онлайн-занятий (по 1 часу)</p>
+          <p class="tariff__price">{{ course.tariffs.basic }}</p>
+        </li>
+        <li class="tariff">
+          <h3 class="tariff__name">Индивидуальный</h3>
+          <p class="tariff__text">8 занятий + 1 индивидуальная онлайн-встреча</p>
+          <p class="tariff__price">{{ course.tariffs.individual }}</p>
+        </li>
+      </ul>
+      <div class="course__cta">
+        <a class="btn btn--lg course__btn" {{href links.instagram }}>Записаться</a>
+        <p class="course__note">* нужна предварительная запись в директ</p>
+      </div>
     </div>
   </section>
 
@@ -228,25 +291,27 @@
     </div>
     <!-- [НУЖНО ОТ КЛИЕНТА: реальные отзывы — имена, фото, тексты].
          Ниже тексты из макета, их нельзя публиковать без замены. -->
-    <ul class="reviews__track" data-reviews tabindex="0" aria-label="Отзывы учеников, прокручиваются по горизонтали">
-      <li class="review">
-        <blockquote class="review__text"><p>Боялась выступать даже на планёрках. После занятий с Ариной провела презентацию для всего отдела — и меня впервые слушали, а не перебивали.</p></blockquote>
-        <p class="review__author"><span class="review__avatar" aria-hidden="true"></span><span class="review__name">Мария К.</span></p>
-      </li>
-      <li class="review">
-        <blockquote class="review__text"><p>Всегда считал свой голос тихим и скучным. Оказалось, дело в дыхании и привычке зажиматься. Теперь спокойно веду переговоры с клиентами.</p></blockquote>
-        <p class="review__author"><span class="review__avatar" aria-hidden="true"></span><span class="review__name">Алексей Р.</span></p>
-      </li>
-      <li class="review">
-        <blockquote class="review__text"><p>«Путешествие в голос» — это про уверенность, а не только про голос. Я начала проявляться: на работе, в блоге и даже в разговорах с близкими.</p></blockquote>
-        <p class="review__author"><span class="review__avatar" aria-hidden="true"></span><span class="review__name">Ольга Д.</span></p>
-      </li>
-    </ul>
-    <div class="container reviews__controls">
-      <button class="reviews__next" type="button" data-reviews-next aria-label="Следующий отзыв">
-        <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 8H20"/><path d="M14 2L20 8L14 14"/></svg>
-      </button>
-      <div class="reviews__progress" aria-hidden="true"><span data-reviews-bar></span></div>
+    <div class="slider" data-slider>
+      <ul class="slider__track reviews__track" data-slider-track tabindex="0" aria-label="Отзывы учеников, прокручиваются по горизонтали">
+        <li class="review">
+          <blockquote class="review__text"><p>Боялась выступать даже на планёрках. После занятий с Ариной провела презентацию для всего отдела — и меня впервые слушали, а не перебивали.</p></blockquote>
+          <p class="review__author"><span class="review__avatar" aria-hidden="true"></span><span class="review__name">Мария К.</span></p>
+        </li>
+        <li class="review">
+          <blockquote class="review__text"><p>Всегда считал свой голос тихим и скучным. Оказалось, дело в дыхании и привычке зажиматься. Теперь спокойно веду переговоры с клиентами.</p></blockquote>
+          <p class="review__author"><span class="review__avatar" aria-hidden="true"></span><span class="review__name">Алексей Р.</span></p>
+        </li>
+        <li class="review">
+          <blockquote class="review__text"><p>«Путешествие в голос» — это про уверенность, а не только про голос. Я начала проявляться: на работе, в блоге и даже в разговорах с близкими.</p></blockquote>
+          <p class="review__author"><span class="review__avatar" aria-hidden="true"></span><span class="review__name">Ольга Д.</span></p>
+        </li>
+      </ul>
+      <div class="container slider__controls" data-slider-controls>
+        <button class="slider__next" type="button" data-slider-next aria-label="Следующий отзыв">
+          <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 8H20"/><path d="M14 2L20 8L14 14"/></svg>
+        </button>
+        <div class="slider__progress" aria-hidden="true"><span data-slider-bar></span></div>
+      </div>
     </div>
   </section>
 
