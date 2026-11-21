@@ -19,6 +19,16 @@
 <body>
 
 <header class="hero" id="top">
+  <!-- Меню: пока только на десктопе -->
+  <nav class="topnav only-d" aria-label="Основное меню">
+    <ul class="container topnav__list">
+      <li><a href="#about">Обо мне</a></li>
+      <li><a href="#method">Мой метод</a></li>
+      <li><a href="#formats">Форматы работы</a></li>
+      <li><a href="#course">Авторский курс</a></li>
+      <li><a href="#contacts">Контакты</a></li>
+    </ul>
+  </nav>
   <div class="container hero__inner">
     <div class="hero__text">
       <h1 class="hero__title"><span>Арина</span> <span><span class="hero__pro">Pro.</span> Голос</span></h1>
@@ -105,7 +115,7 @@
         <ol class="route__steps">
           <li class="route__step route__step--1">
             <svg class="route__segment" viewBox="0 0 48 250" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M24 0 C2 76 46 166 24 250" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 8" vector-effect="non-scaling-stroke"/></svg>
-            <span class="route__num" aria-hidden="true">01</span>
+            <span class="route__num" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c1.5-5 3.5-5 5 0s3.5 5 5 0 3.5-5 5 0 3.5 5 5 0"/></svg></span>
             <div class="route__body">
               <h3 class="route__title">Звуковысотный диапазон</h3>
               <p>Исследуем низкие и высокие звуки. Голос становится объёмным и живым.</p>
@@ -114,7 +124,7 @@
           </li>
           <li class="route__step route__step--2">
             <svg class="route__segment" viewBox="0 0 48 250" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M24 0 C2 76 46 166 24 250" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 8" vector-effect="non-scaling-stroke"/></svg>
-            <span class="route__num" aria-hidden="true">02</span>
+            <span class="route__num" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/></svg></span>
             <div class="route__body">
               <h3 class="route__title">Голос, который звучит всем телом</h3>
               <p>Через дыхание и резонаторы находим опору и свободу звучания.</p>
@@ -122,7 +132,7 @@
             <svg class="route__art route__art--rings" viewBox="0 0 240 70" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="120" cy="35" rx="116" ry="32"/><ellipse cx="120" cy="35" rx="86" ry="23"/><ellipse cx="120" cy="35" rx="56" ry="15"/><ellipse cx="120" cy="35" rx="26" ry="7"/></svg>
           </li>
           <li class="route__step route__step--3">
-            <span class="route__num" aria-hidden="true">03</span>
+            <span class="route__num" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="2" fill="currentColor" stroke="none"/><path d="M10 8.5a5 5 0 0 1 0 7"/><path d="M14 5.5a9.5 9.5 0 0 1 0 13"/><path d="M18 2.5a14 14 0 0 1 0 19"/></svg></span>
             <div class="route__body">
               <h3 class="route__title">За пределами тела</h3>
               <p>Направляем голос в пространство. Вас слышно — без крика и напряжения.</p>
@@ -241,26 +251,15 @@
   </section>
 
   <section class="contacts" id="contacts" aria-labelledby="contacts-title">
-    <!-- Мобильная версия: тёмный блок с двумя кнопками (Main-2) -->
-    <div class="container contacts__m only-m">
+    <!-- Мобильный: тёмный блок, переходящий в подвал (Main-2).
+         Десктоп: та же структура отдельной светлой секцией. -->
+    <div class="container contacts__inner">
       <h2 class="h2 contacts__title" id="contacts-title">Давайте познакомимся</h2>
       <p class="contacts__text">Напишите мне — подберём формат занятий под вашу задачу.</p>
       <div class="contacts__buttons">
         <a class="btn btn--lg" {{href links.telegram }}>Telegram</a>
         <a class="btn btn--lg" {{href links.instagram }}>Instagram</a>
       </div>
-    </div>
-    <!-- Десктоп: большой горчичный блок-ссылка (Desktop-2) -->
-    <div class="container only-d">
-      <a class="tg-card" {{href links.telegram }}>
-        <span class="tg-card__icon" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M50 8 L6 25 L22 31 L26 47 L34 36 L45 44 Z"/><path d="M22 31 L50 8"/><path d="M26 47 L28 34"/></svg></span>
-        <span class="tg-card__body">
-          <span class="tg-card__eyebrow">Написать в Telegram</span>
-          <span class="tg-card__title">Давайте познакомимся</span>
-          <span class="tg-card__text">Напишите мне в Telegram: отвечу лично и подберём формат занятий под вашу задачу.</span>
-        </span>
-        <span class="tg-card__arrow" aria-hidden="true"><svg width="34" height="24" viewBox="0 0 34 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12 H31"/><path d="M21 2 L31 12 L21 22"/></svg></span>
-      </a>
     </div>
   </section>
 

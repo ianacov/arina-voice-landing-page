@@ -40,6 +40,23 @@
   --container: 1200px;
   --section-y: clamp(64px, 64px + 56 * var(--fl), 120px);
   --h2: clamp(32px, 32px + 20 * var(--fl), 52px);
+
+  /* Масштаб десктопа (см. ниже). 1 — размеры как в макете. */
+  --zoom: 1;
+}
+
+/* Десктоп 1024–1919: весь макет уменьшен на 20%, чтобы секции
+   помещались на экраны ноутбуков. Пропорции и композиция не меняются.
+   Важно: vw/vh внутри zoom не пересчитываются (100vh = 80% окна),
+   поэтому там, где нужна высота окна, делим на var(--zoom). */
+@media (min-width: 1024px) and (max-width: 1919.98px) {
+  :root {
+    --zoom: 0.8;
+  }
+}
+
+body {
+  zoom: var(--zoom);
 }
 
 /* ---------- База ---------- */
@@ -182,8 +199,40 @@ a[data-todo] {
 /* ---------- 1. Первый экран ---------- */
 
 .hero {
+  --hero-pt: clamp(56px, 56px + 24 * var(--fl), 80px);
+  --hero-pb: clamp(24px, 24px + 56 * var(--fl), 80px);
+  position: relative;
   background: var(--color-mustard);
-  padding: clamp(56px, 56px + 24 * var(--fl), 80px) 0 clamp(24px, 24px + 56 * var(--fl), 80px);
+  padding: var(--hero-pt) 0 var(--hero-pb);
+}
+
+/* Меню (только десктоп): справа, в верхнем отступе первого экрана,
+   поэтому не меняет высоту блока */
+.topnav {
+  position: absolute;
+  top: 24px;
+  left: 0;
+  right: 0;
+}
+
+.topnav__list {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+}
+
+.topnav a {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--color-burgundy);
+  text-decoration: none;
+}
+
+.topnav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .hero__inner {
@@ -241,6 +290,16 @@ a[data-todo] {
 .hero__tag--3 { right: -12px; bottom: 10.9%; }
 
 @media (min-width: 1024px) {
+  /* Первый экран на всю высоту окна, контент по центру.
+     Делим на --zoom: внутри zoom 100svh = 80% окна. */
+  .hero {
+    --hero-pt: 88px; /* место под меню */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100svh / var(--zoom));
+  }
+
   .hero__inner {
     display: grid;
     grid-template-columns: minmax(0, 680fr) minmax(0, 460fr);
@@ -260,7 +319,11 @@ a[data-todo] {
     letter-spacing: -0.035em;
   }
 
+  /* Первый экран целиком в окне: ширина фото ограничена высотой окна
+     (фото 460×620, высота = окно − отступы блока). Форма фото не меняется. */
   .hero__media {
+    justify-self: end;
+    width: min(100%, max(280px, (100svh / var(--zoom) - var(--hero-pt) - var(--hero-pb)) * 460 / 620));
     max-width: none;
     margin-top: 0;
   }
@@ -581,9 +644,12 @@ a[data-todo] {
   border-radius: var(--radius-pill);
   background: var(--color-burgundy);
   color: var(--color-mustard);
-  font-size: 16px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
+}
+
+/* Значок этапа: половина кружка, масштабируется вместе с ним */
+.route__num svg {
+  width: 50%;
+  height: auto;
 }
 
 .route__body {
@@ -677,7 +743,6 @@ a[data-todo] {
   .route__num {
     width: 4.667cqw;
     height: 4.667cqw;
-    font-size: 1.667cqw;
   }
 
   .route__body {
@@ -1020,8 +1085,7 @@ a[data-todo] {
   font-size: clamp(17px, 17px + 1 * var(--fl), 18px);
 }
 
-.course__btn:focus-visible,
-.contacts__m .btn:focus-visible {
+.course__btn:focus-visible {
   outline-color: var(--color-mustard);
 }
 
@@ -1178,13 +1242,13 @@ a[data-todo] {
 
 /* ---------- 10. Контакты ---------- */
 
-/* До 1024: тёмный блок, переходящий в подвал (Main-2) */
+/* Мобильный (Main-2): тёмный блок, переходящий в подвал */
 .contacts {
   background: var(--color-footer);
   padding: var(--section-y) 0 0;
 }
 
-.contacts__m {
+.contacts__inner {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1211,66 +1275,49 @@ a[data-todo] {
   margin-top: 16px;
 }
 
+.contacts .btn:focus-visible {
+  outline-color: var(--color-mustard);
+}
+
+/* Десктоп: та же структура отдельной светлой секцией над подвалом,
+   кнопки в ряд */
 @media (min-width: 1024px) {
   .contacts {
     background: var(--color-cream);
-    padding: clamp(72px, 6.94vw, 100px) 0;
+    padding: var(--section-y) 0;
   }
-}
 
-/* Большой блок-ссылка (Desktop-2); на 1024–1440 сжимается пропорционально */
-.tg-card {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  column-gap: clamp(32px, 3.33vw, 48px);
-  padding: clamp(36px, 3.33vw, 48px) clamp(40px, 3.89vw, 56px);
-  border-radius: 32px;
-  background: var(--color-mustard);
-  color: var(--color-burgundy);
-  text-decoration: none;
-}
+  .contacts__title {
+    color: var(--color-burgundy);
+    text-align: center;
+  }
 
-.tg-card__icon,
-.tg-card__arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-pill);
-  background: var(--color-burgundy);
-  color: var(--color-mustard);
-}
+  .contacts__text {
+    max-width: 640px;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--color-text);
+    text-wrap: balance;
+  }
 
-.tg-card__icon { width: clamp(96px, 8.89vw, 128px); aspect-ratio: 1; }
-.tg-card__arrow { width: clamp(72px, 6.67vw, 96px); aspect-ratio: 1; }
-.tg-card__icon svg { width: 44%; height: auto; }
-.tg-card__arrow svg { width: 35%; height: auto; }
+  .contacts__buttons {
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+    width: auto;
+    max-width: none;
+  }
 
-.tg-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+  .contacts__buttons .btn {
+    min-width: 240px;
+    min-height: 60px;
+    padding: 0 40px;
+    font-size: 18px;
+  }
 
-.tg-card__eyebrow {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-}
-
-.tg-card__title {
-  font-size: var(--h2);
-  line-height: 1.08;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.tg-card__text {
-  font-size: clamp(17px, 1.39vw, 20px);
-  line-height: 1.5;
-  color: var(--color-text);
+  .contacts .btn:focus-visible {
+    outline-color: var(--color-burgundy);
+  }
 }
 
 /* ---------- 11. Подвал ---------- */
