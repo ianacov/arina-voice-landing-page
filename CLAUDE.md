@@ -1,71 +1,112 @@
-# Project
+# Проект: «Арина Pro. Голос» — сайт-визитка
 
-Build a responsive mobile-first single-page website.
+Одностраничный адаптивный сайт (mobile-first) для Арины Ивановой, тренера по голосу и речи, актрисы и режиссёра. Единственное целевое действие — написать в Telegram.
 
-## Source of truth
+## ГЛАВНОЕ ПРАВИЛО
 
-Before designing or changing the page, read:
-- brief/project.md
-- brief/design.md
-- brief/content.md
-- references/notes.md
+1. **Игнорируй текущую сборку проекта.** Не опирайся на существующие `src/`, `dist/`, `index.html`, `styles.css`, `main.js` и не переиспользуй их код и решения. Всё делаем **с нуля**.
+2. **Сайт должен в точности совпадать с предоставленным дизайном.** Цвета, шрифты, размеры, отступы, порядок секций, тексты, скругления, декоративные элементы — один в один. Никаких «улучшений», упрощений и собственных интерпретаций.
+3. Если в дизайне чего-то нет или что-то неоднозначно — **не придумывай, а спроси.**
 
-Inspect relevant reference images and supplied photographs.
-Do not infer their appearance from filenames.
+## Источник истины: дизайн
 
-If information is missing, identify it. Do not invent testimonials,
-qualifications, client counts, prices, or business claims.
+Макет сделан на холсте Claude Design: https://claude.ai/artifact/TZ1E4BDkTrkDC8NZSYQz8w
 
-## Implementation
+Файлы макета (экспорт с холста) лежат в `design/`:
 
-Use Vite, semantic HTML, CSS, and minimal JavaScript.
-Keep dependencies minimal.
-Store reusable colors, spacing, and typography in CSS custom properties.
-Use public/images for website images.
+| Файл | Что это |
+|---|---|
+| `design/Main.dc.html` | Мобильная версия 390, часть 1 |
+| `design/Main-2.dc.html` | Мобильная версия 390, часть 2 |
+| `design/Desktop.dc.html` | Десктоп 1440, часть 1 |
+| `design/Desktop-2.dc.html` | Десктоп 1440, часть 2 |
 
-Keep these package scripts working:
-- npm run dev
-- npm run build
-- npm run preview
+Перед версткой каждой секции открой соответствующий файл и бери значения **оттуда** (px, цвета, line-height, letter-spacing, gap, padding). Эти файлы — референс, а не код для копирования: верстаем заново, чистым семантическим HTML и CSS.
 
-## Design
+Фотографии — в `photos/`. Смотри сами изображения, не угадывай содержимое по именам файлов. Обрезка и пропорции — как на плейсхолдерах в макете.
 
-Follow the project's visual brief when applying design skills.
-Base visual decisions on the actual subject, content, and photography.
+## Стек
 
-Use a clear reading order, readable typography, and deliberate spacing.
-Choose section layouts according to their content.
-Use cards only when the content represents distinct grouped items.
+- **Vite** (без фреймворка). Скрипты `npm run dev`, `npm run build`, `npm run preview` должны работать.
+- **Семантический HTML5**: `header`, `main`, `section`, `h1–h3`, `ul`, `nav`, `footer`.
+- **Чистый CSS** с custom properties. Без Tailwind, без UI-библиотек.
+- **Vanilla JS** — минимум (видео-фасад, плавный скролл).
+- **Данные** (цены, дата старта курса, ссылки) — в одном конфиге `src/site-config.js`.
+- Изображения сайта — в `public/images/`.
+- Зависимости — минимальные. Новую зависимость добавлять только после согласования.
 
-Avoid decorative gradients, glass effects, floating shapes, excessive
-rounded containers, and repeated entrance animations unless the brief
-specifically calls for them.
+## Дизайн-токены (из макета)
 
-Do not replace those defaults with another generic aesthetic.
-Restraint and consistency matter more than novelty.
+```css
+--color-mustard: #EBB817;    /* основной акцент, фон первого экрана, кнопки */
+--color-burgundy: #4A1424;   /* основной текст, плашки */
+--color-burgundy-dark: #3A0F1C; /* фон секции курса */
+--color-accent: #8C1C3A;     /* «Pro.», нумерация, подзаголовки */
+--color-text: #6B2737;       /* абзацы */
+--color-cream: #FAF7F0;      /* светлые секции */
+--color-footer: #1F2535;     /* подвал */
+--color-border: #E2DED4;
+--color-placeholder: #D6D6D6;
+--color-white: #FFFFFF;
+```
 
-## Content
+- **Шрифт:** Montserrat 400/500/600 + курсив 500/600, **с кириллицей**. Подключать локально (`@fontsource/montserrat` или woff2 в проекте), не через Google Fonts.
+- **Скругления:** 12px — фото; 20–24px — карточки; 32px — блок контактов; 999px — кнопки и плашки.
+- **Брейкпоинты:** база — 390 (мобильная); десктопный макет — 1440. Промежуточные ширины должны выглядеть аккуратно, без поломок.
+- Нумерация `[01]…[07]` и `01–03` — `font-variant-numeric: tabular-nums`.
 
-Use specific, natural language.The text is written in the first person.
-Avoid empty marketing phrases and unsupported superlatives.
-Keep missing content clearly marked during development.
-Every button must have a real destination or implemented action.
+## Секции (строго в этом порядке)
 
-## Quality
+1. **Первый экран** — горчичный фон, «Арина / Pro. Голос», подзаголовок курсивом, фото с плашками «актриса», «режиссёр», «тренер по голосу и речи».
+2. **Обо мне** — «Познакомимся?», коллаж повёрнутых фото, список «Образование и профессиональный опыт» [01]–[07].
+3. **Послушайте мой голос** — видео с круглой кнопкой ▶.
+4. **Мой метод** — горчичный фон, декоративные волнистые линии (SVG), пунктирный маршрут с этапами 01–03 и иллюстрациями.
+5. **Вам подойдёт работа со мной, если** — 6 горчичных карточек с иллюстрациями.
+6. **Результаты работы со мной** — бордовый фон, список с горчичными штрихами.
+7. **Форматы работы** — 3 карточки (средняя выделена, плашка «Рекомендую»), цена, кнопка «Подробнее».
+8. **Авторский курс** «Путешествие в голос и проявленность» — тёмно-бордовый фон, фото, кнопка.
+9. **Отзывы учеников** — 3 карточки.
+10. **Контакты** — большой горчичный блок-ссылка «Давайте познакомимся» в Telegram.
+11. **Подвал** — логотип, навигация по якорям, Telegram, Instagram, копирайт.
 
-The website is mobile-first. Support mobile and desktop layouts.
-Preserve sensible photo crops and image proportions.
-Use accessible contrast, visible focus states, semantic headings,
-form labels where needed, and appropriate alternative text.
-Respect reduced-motion preferences.
+Различия мобильной и десктопной версий бери из соответствующих файлов макета (например, коллаж фото, плашки на первом экране и маршрут «Мой метод» на мобильном перестраиваются).
 
-After meaningful changes, run the build.
-Inspect the rendered page at mobile and desktop sizes when browser
-tools are available. Report what was actually checked.
+## Технические решения
 
-## Working style
+- **Декор** (волны, пунктирный маршрут, мелкие иконки) — inline SVG с `aria-hidden="true"`. Иллюстрации карточек — SVG-файлы.
+- **Фото** — WebP/AVIF, несколько размеров через `<picture>` + `srcset`; всё ниже первого экрана — `loading="lazy"`.
+- **Видео** — фасад: сначала постер и кнопка ▶, плеер загружается только по клику. Источник — собственный MP4 (H.264) или VK Видео / Rutube (YouTube не использовать — медленно в РФ).
+- **Навигация** — якоря (`#about`, `#formats`, `#course`, `#reviews`), `scroll-behavior: smooth`.
+- **SEO** — `lang="ru"`, `title`, `meta description`, Open Graph (картинка 1200×630) для превью в Telegram, favicon, `apple-touch-icon`.
+- **Аналитика** — Яндекс.Метрика с целью «клик по Telegram» (только после согласования); при подключении — плашка cookie и политика конфиденциальности (152-ФЗ).
+- **Хостинг** — статический (Netlify / Vercel / Cloudflare Pages или российский хостинг — папка `dist`).
 
-Implement in small, reviewable steps.
-Preserve approved design decisions.
-When I approve a design change, update brief/design.md accordingly.
-When I approve or sujjest a content change, update brief/content.md accordingly.
+## Контент
+
+- Тексты — строго из макета, от первого лица.
+- **Не придумывай** отзывы, регалии, цены, даты, количество учеников и другие факты.
+- Отсутствующий контент — явно помечать заглушкой `[НУЖНО ОТ КЛИЕНТА: …]`.
+- Сейчас не подтверждено и требует данных от клиента:
+  - ник в Telegram и ссылка на Instagram;
+  - видео для блока «Послушайте мой голос»;
+  - куда ведут кнопки «Подробнее» в форматах и в блоке курса;
+  - реальные отзывы (имена, фото, тексты);
+  - цены форматов и дата старта курса.
+- Каждая кнопка и ссылка должна иметь реальное назначение. Пока назначения нет — помечать как заглушку, а не ставить `href="#"` молча.
+
+## Качество
+
+- Mobile-first; проверка на 390 и 1440, плюс промежуточные ширины.
+- Контраст текста не ниже 4.5:1, видимый `:focus-visible`, `alt` у фото, `aria-label` у кнопок-иконок (кнопка видео).
+- Учитывать `prefers-reduced-motion`.
+- Без декоративных градиентов, стеклянных эффектов, лишних анимаций появления — только то, что есть в макете.
+- Никогда не использовать средний точечный разделитель «·» в текстах.
+- Цель Lighthouse — 90+ по всем пунктам.
+
+## Порядок работы
+
+1. Сначала каркас: Vite-проект, токены, шрифт, базовая сетка.
+2. Затем секции по одной, в порядке из списка выше: сначала мобильная версия, потом десктопная.
+3. После каждой секции — `npm run build` и сверка с макетом на 390 и 1440 (если доступен браузер). Сообщать, что именно было проверено.
+4. Маленькие, проверяемые шаги. Не трогать уже согласованные секции без запроса.
+5. Не создавать и не менять файлы вне задачи без разрешения.

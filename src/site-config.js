@@ -1,12 +1,36 @@
-// Contact destinations. If a value is empty, every button that uses it is hidden.
-// TEMPORARY: all links point to platform home pages until Arina's real links are known
-// (see "Sample content to replace" in brief/content.md).
-export const links = {
-  // Direct message to Arina (e.g. https://t.me/username) — used for enrolment.
-  direct: 'https://t.me/',
-  // Arina's Telegram channel (e.g. https://t.me/channelname).
-  channel: 'https://t.me/',
-  // Social profiles shown in the footer. TEMPORARY: platform home pages.
-  instagram: 'https://www.instagram.com/',
-  vk: 'https://vk.com/',
+// Все данные сайта, которые могут меняться, — в одном месте.
+// Значения подставляются в index.html при сборке (см. vite.config.js):
+// в разметке они записаны как {{ путь.к.значению }}.
+//
+// Пустая строка в ссылке = назначение ещё не известно. Такая ссылка
+// собирается с пометкой data-todo, а сборка выводит предупреждение.
+
+export const site = {
+  url: '', // [НУЖНО ОТ КЛИЕНТА: домен сайта, нужен для og:url и og:image]
+  year: 2026,
+
+  links: {
+    telegram: '', // [НУЖНО ОТ КЛИЕНТА: ник в Telegram], например https://t.me/nick
+    instagram: '', // [НУЖНО ОТ КЛИЕНТА: ссылка на Instagram]
+    courseMore: '', // [НУЖНО ОТ КЛИЕНТА: куда ведёт «Подробнее о курсе»]
+  },
+
+  // Видео для блока «Послушайте мой голос».
+  // type: 'mp4' (собственный файл H.264) или 'iframe' (VK Видео / Rutube embed).
+  video: {
+    type: 'mp4',
+    src: '', // [НУЖНО ОТ КЛИЕНТА: видео]
+  },
+
+  // Цены — из макета, ждут подтверждения клиента.
+  formats: {
+    diagnostics: { price: 'от 3 000 ₽', more: '' }, // [НУЖНО ОТ КЛИЕНТА: куда ведёт «Подробнее»]
+    package: { price: 'от 20 000 ₽', more: '' }, // [НУЖНО ОТ КЛИЕНТА: куда ведёт «Подробнее»]
+    speaking: { price: 'от 5 000 ₽', more: '' }, // [НУЖНО ОТ КЛИЕНТА: куда ведёт «Подробнее»]
+  },
+
+  // Дата старта — из макета, ждёт подтверждения клиента.
+  course: {
+    start: '15 января',
+  },
 };

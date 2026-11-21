@@ -1,45 +1,76 @@
+// Montserrat локально: 400/500/600 + курсив 500/600, кириллица и латиница.
+import '@fontsource/montserrat/cyrillic-400.css';
+import '@fontsource/montserrat/latin-400.css';
+import '@fontsource/montserrat/cyrillic-500.css';
+import '@fontsource/montserrat/latin-500.css';
+import '@fontsource/montserrat/cyrillic-600.css';
+import '@fontsource/montserrat/latin-600.css';
+import '@fontsource/montserrat/cyrillic-500-italic.css';
+import '@fontsource/montserrat/latin-500-italic.css';
+import '@fontsource/montserrat/cyrillic-600-italic.css';
+import '@fontsource/montserrat/latin-600-italic.css';
 import './styles.css';
-import { links } from './site-config.js';
 
-// Page-load reveal: start once the font and hero photo are ready (or after a
-// short timeout), so text doesn't jump on font swap and the photo doesn't pop in.
-const heroImg = document.querySelector('.hero-photo img');
-const assetsReady = Promise.all([
-  document.fonts ? document.fonts.ready : null,
-  heroImg && heroImg.decode ? heroImg.decode().catch(() => {}) : null,
-]);
-const timeout = new Promise((resolve) => setTimeout(resolve, 1500));
-Promise.race([assetsReady, timeout]).then(() => {
-  window.scrollTo(0, 0);
-  requestAnimationFrame(() => document.documentElement.classList.add('is-ready'));
-});
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-// Apply confirmed contact links; buttons without a destination stay hidden (see CSS).
-document.querySelectorAll('[data-link]').forEach((el) => {
-  const url = links[el.dataset.link];
-  if (url) el.href = url;
-});
+// Видео-фасад: плеер загружается только по клику на ▶.
+function initVideo(root) {
+  const button = root.querySelector('.video__play');
+  const { videoType, videoSrc } = root.dataset;
 
-// Mobile menu
-const toggle = document.querySelector('.menu-toggle');
-const nav = document.getElementById('site-nav');
-
-const setOpen = (open) => {
-  toggle.setAttribute('aria-expanded', String(open));
-  nav.classList.toggle('is-open', open);
-};
-
-toggle.addEventListener('click', () => {
-  setOpen(toggle.getAttribute('aria-expanded') !== 'true');
-});
-
-nav.addEventListener('click', (event) => {
-  if (event.target.closest('a')) setOpen(false);
-});
-
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-    setOpen(false);
-    toggle.focus();
+  if (!videoSrc) {
+    // [НУЖНО ОТ КЛИЕНТА: видео] — пока источника нет, кнопка ничего не загружает.
+    button.dataset.todo = 'НУЖНО ОТ КЛИЕНТА: video.src';
+    return;
   }
-});
+
+  button.addEventListener('click', () => {
+    let player;
+    if (videoType === 'iframe') {
+      player = document.createElement('iframe');
+      player.src = videoSrc;
+      player.title = 'Видео: послушайте мой голос';
+      player.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
+      player.allowFullscreen = true;
+    } else {
+      player = document.createElement('video');
+      player.src = videoSrc;
+      player.controls = true;
+      player.autoplay = true;
+      player.playsInline = true;
+    }
+    root.replaceChildren(player);
+    player.focus();
+  }, { once: true });
+}
+
+// Отзывы на мобильном: кнопка «дальше» и полоса прогресса.
+function initReviews(track) {
+  const next = document.querySelector('[data-reviews-next]');
+  const bar = document.querySelector('[data-reviews-bar]');
+
+  const update = () => {
+    const visible = (track.scrollLeft + track.clientWidth) / track.scrollWidth;
+    bar.style.width = `${Math.min(1, visible) * 100}%`;
+  };
+
+  next.addEventListener('click', () => {
+    const behavior = reducedMotion.matches ? 'auto' : 'smooth';
+    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+    if (atEnd) {
+      track.scrollTo({ left: 0, behavior });
+      return;
+    }
+    const card = track.firstElementChild;
+    const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
+    track.scrollBy({ left: step, behavior });
+  });
+
+  track.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+}
+
+document.querySelectorAll('[data-video]').forEach(initVideo);
+const reviews = document.querySelector('[data-reviews]');
+if (reviews) initReviews(reviews);
