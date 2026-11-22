@@ -12,6 +12,35 @@
                курс, отзывы, контакты, подвал);
        1200+ — маршрут «Мой метод» в виде карты, как в макете 1440. */
 
+/* ---------- Шрифты ----------
+   Montserrat локально (fontsource). Файлы по весам содержат unicode-range,
+   поэтому браузер сразу знает, какой файл нужен для кириллицы, а какой для
+   латиницы/цифр/знаков, и качает только их, параллельно. Файлы для первого
+   экрана дополнительно предзагружаются в <head> (rel=preload). */
+@import '@fontsource/montserrat/400.css';
+@import '@fontsource/montserrat/500.css';
+@import '@fontsource/montserrat/600.css';
+@import '@fontsource/montserrat/500-italic.css';
+@import '@fontsource/montserrat/600-italic.css';
+
+/* Запасной шрифт с метриками Montserrat: если шрифт ещё грузится, Arial
+   занимает столько же места, и текст не прыгает при подмене. */
+@font-face {
+  font-family: 'Montserrat Fallback';
+  src: local('Arial');
+  size-adjust: 112.83%;
+  ascent-override: 85.79%;
+  descent-override: 22.25%;
+  line-gap-override: 0%;
+}
+
+/* Плавный переход между главной и страницей курса */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
 :root {
   --color-mustard: #EBB817;
   --color-burgundy: #4A1424;
@@ -28,7 +57,7 @@
   --color-line-footer: rgba(255, 255, 255, 0.18);
   --color-white-75: rgba(255, 255, 255, 0.75);
 
-  --font: 'Montserrat', sans-serif;
+  --font: 'Montserrat', 'Montserrat Fallback', sans-serif;
 
   --radius-photo: 12px;
   --radius-pill: 999px;
@@ -140,6 +169,28 @@ button {
 /* Ссылка-заглушка: назначение ещё не задано в site-config.js */
 a[data-todo] {
   cursor: not-allowed;
+}
+
+/* ---------- Плавное появление при загрузке и прокрутке ----------
+   Разметка: data-reveal — элемент проявляется и чуть всплывает;
+   data-reveal="stagger" — так же появляются его дочерние элементы, волной.
+   Видимость включает main.js (класс .is-visible) по мере прокрутки.
+   Работает только при метке .js (ставится в <head> до отрисовки) и без
+   системной настройки «уменьшить движение». */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal]:not([data-reveal='stagger']),
+  .js [data-reveal='stagger'] > * {
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.2, 0.65, 0.25, 1);
+    transition-delay: calc(var(--reveal-delay, 0s) + var(--reveal-i, 0) * 90ms);
+  }
+
+  .js [data-reveal]:not([data-reveal='stagger']):not(.is-visible),
+  .js [data-reveal='stagger'] > :not(.is-visible) {
+    opacity: 0;
+    transform: translateY(24px);
+  }
 }
 
 /* ---------- Общие элементы ---------- */
@@ -1293,20 +1344,18 @@ a[data-todo] {
   .course__inner {
     display: grid;
     grid-template-columns: minmax(0, 560fr) minmax(0, 560fr);
-    grid-template-rows: 1fr auto auto auto auto auto 1fr;
+    grid-template-rows: 1fr auto auto auto auto 1fr;
     column-gap: 6.67%;
     row-gap: 0;
   }
 
-  .course__head { grid-area: 2 / 1; align-items: flex-start; text-align: left; }
+  .course__inner > .course__head { grid-area: 2 / 1; align-items: flex-start; text-align: left; }
   .course__title { text-align: left; }
-  .course__meta { grid-area: 3 / 1; margin-top: 24px; }
-  .course__text { grid-area: 4 / 1; margin-top: 24px; }
-  .course__tariffs { grid-area: 5 / 1; margin-top: 24px; }
-  .course__cta { grid-area: 6 / 1; margin-top: 32px; align-items: flex-start; }
-  .course__btn { padding: 0 40px; }
-  .course__note { text-align: left; }
-  .course__photo { grid-area: 1 / 2 / 8 / 3; align-self: center; aspect-ratio: 4 / 3; max-height: none; }
+  .course__inner > .course__meta { grid-area: 3 / 1; margin-top: 24px; }
+  .course__inner > .course__text { grid-area: 4 / 1; margin-top: 24px; }
+  .course__inner > .course__cta { grid-area: 5 / 1; margin-top: 32px; align-items: flex-start; }
+  .course__inner .course__btn { padding: 0 40px; }
+  .course__inner > .course__photo { grid-area: 1 / 2 / 7 / 3; align-self: center; aspect-ratio: 4 / 3; max-height: none; }
 }
 
 /* ---------- 9. Отзывы ---------- */
@@ -1467,6 +1516,174 @@ a[data-todo] {
 
   .contacts .btn:focus-visible {
     outline-color: var(--color-burgundy);
+  }
+}
+
+/* ---------- Страница курса (course.html) ----------
+   Переиспользует стили блока курса (.course__*, .tariff, .btn),
+   свои — только раскладка страницы и программа уроков. */
+
+.cpage-hero {
+  background: var(--color-burgundy-dark);
+  padding: clamp(16px, 16px + 16 * var(--fl), 32px) 0 var(--section-y);
+}
+
+/* Слева — описание курса, справа — тарифы и запись (на десктопе).
+   На телефоне и планшете — друг под другом. */
+.cpage-hero__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 28px + 12 * var(--fl), 40px);
+}
+
+.cpage-hero__info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cpage-offer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 560px;
+}
+
+.cpage-offer .course__cta {
+  margin-top: 8px;
+}
+
+@media (min-width: 1024px) {
+  .cpage-hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 600fr) minmax(0, 520fr);
+    column-gap: 6.67%;
+    row-gap: 0;
+    align-items: center;
+  }
+
+  .cpage-back {
+    grid-column: 1 / -1;
+  }
+
+  .cpage-offer {
+    grid-column: 2;
+    max-width: none;
+  }
+}
+
+.cpage-back {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-bottom: clamp(8px, 8px + 32 * var(--fl), 40px);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-mustard);
+  text-decoration: none;
+}
+
+.cpage-back:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.cpage-hero__head {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 10px + 6 * var(--fl), 16px);
+}
+
+.cpage-hero__title {
+  max-width: 900px;
+  font-size: clamp(34px, 34px + 30 * var(--fl), 64px);
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-mustard);
+}
+
+.cpage-hero .course__text {
+  max-width: 640px;
+}
+
+/* Программа: 1 колонка на телефоне, 2 на планшете, 4 на десктопе */
+.program {
+  background: var(--color-cream);
+  padding: var(--section-y) 0;
+}
+
+.program__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 28px + 20 * var(--fl), 48px);
+}
+
+.program__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(12px, 12px + 12 * var(--fl), 24px);
+}
+
+.lesson {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(20px, 20px + 4 * var(--fl), 24px);
+  border: 1px solid var(--color-border);
+  border-radius: clamp(16px, 16px + 4 * var(--fl), 20px);
+  background: var(--color-white);
+}
+
+.lesson__num {
+  align-self: flex-start;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-burgundy);
+  color: var(--color-mustard);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.lesson__topics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lesson__topics li {
+  position: relative;
+  padding-left: 18px;
+  font-size: clamp(15px, 15px + 1 * var(--fl), 16px);
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+.lesson__topics li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 8px;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+@media (min-width: 640px) {
+  .program__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .program .h2 {
+    text-align: left;
+  }
+
+  .program__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 

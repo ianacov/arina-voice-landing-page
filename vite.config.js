@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import { site } from './src/site-config.js';
 
@@ -43,4 +44,13 @@ function siteConfig() {
 export default defineConfig({
   base: './',
   plugins: [siteConfig()],
+  build: {
+    // Две страницы: главная и страница курса
+    rollupOptions: {
+      input: {
+        main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        course: fileURLToPath(new URL('./course.html', import.meta.url)),
+      },
+    },
+  },
 });

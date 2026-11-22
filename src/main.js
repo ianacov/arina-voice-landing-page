@@ -1,15 +1,5 @@
-// Montserrat локально: 400/500/600 + курсив 500/600, кириллица и латиница.
-import '@fontsource/montserrat/cyrillic-400.css';
-import '@fontsource/montserrat/latin-400.css';
-import '@fontsource/montserrat/cyrillic-500.css';
-import '@fontsource/montserrat/latin-500.css';
-import '@fontsource/montserrat/cyrillic-600.css';
-import '@fontsource/montserrat/latin-600.css';
-import '@fontsource/montserrat/cyrillic-500-italic.css';
-import '@fontsource/montserrat/latin-500-italic.css';
-import '@fontsource/montserrat/cyrillic-600-italic.css';
-import '@fontsource/montserrat/latin-600-italic.css';
-import './styles.css';
+// Стили и шрифты подключены в <head> (link rel=stylesheet), а не отсюда:
+// так страница не показывается без стилей ни в dev-режиме, ни на сайте.
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -76,5 +66,30 @@ function initSlider(root) {
   new ResizeObserver(update).observe(track);
 }
 
+// Плавное появление (стили — в styles.css, раздел «Плавное появление»).
+// Цели: элементы [data-reveal] и дочерние элементы [data-reveal="stagger"].
+// Элементы, попавшие на экран одновременно, появляются волной (--reveal-i).
+function initReveal() {
+  const targets = [...document.querySelectorAll('[data-reveal]')].flatMap((el) =>
+    el.dataset.reveal === 'stagger' ? [...el.children] : [el],
+  );
+
+  const observer = new IntersectionObserver((entries) => {
+    entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top
+        || a.boundingClientRect.left - b.boundingClientRect.left)
+      .forEach((entry, i) => {
+        entry.target.style.setProperty('--reveal-i', String(i));
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+  }, { rootMargin: '0px 0px -8% 0px' });
+
+  targets.forEach((el) => observer.observe(el));
+  window.revealReady = true; // см. подстраховку в <head>
+}
+
 document.querySelectorAll('[data-video]').forEach(initVideo);
 document.querySelectorAll('[data-slider]').forEach(initSlider);
+initReveal();

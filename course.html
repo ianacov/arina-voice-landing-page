@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Курс «Путешествие в голос и проявленность» — Арина Pro. Голос</title>
+  <meta name="description" content="Авторский курс Арины Ивановой «Путешествие в голос и проявленность»: программа из 8 уроков, тарифы и запись.">
+  <meta name="theme-color" content="#3A0F1C">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Курс «Путешествие в голос и проявленность»">
+  <meta property="og:description" content="Откроем ваш истинный голос, поработаем над речью и пойдём в вашу проявленность.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <!-- Метка .js до первой отрисовки: элементы с data-reveal скрыты сразу, без мигания.
+       Если main.js не запустится за 3 с, метка снимается и всё видно без анимации. -->
+  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.revealReady)document.documentElement.classList.remove('js')},3000)</script>
+  <link rel="stylesheet" href="/src/styles.css">
+  <script type="module" src="/src/main.js"></script>
+  <!-- Шрифты первого экрана: качаются сразу, параллельно со стилями, а не после них -->
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-cyrillic-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+
+<!-- Тексты курса — от клиента, дословно. Дата и цены — в src/site-config.js -->
+<header class="cpage-hero">
+  <div class="container cpage-hero__inner">
+    <a class="cpage-back" href="./">
+      <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8H2"/><path d="M8 2L2 8L8 14"/></svg>
+      На главную
+    </a>
+    <div class="cpage-hero__info" data-reveal="stagger">
+      <div class="cpage-hero__head">
+        <p class="course__eyebrow">Авторский курс</p>
+        <h1 class="cpage-hero__title">Путешествие в голос и проявленность</h1>
+      </div>
+      <div class="course__meta">
+        <p class="course__start">Старт — {{ course.start }}</p>
+        <p class="course__format">Продолжительность 1 месяц</p>
+      </div>
+      <p class="course__text"><span class="course__label">Цель:</span> откроем Ваш истинный голос, поработаем над речью и пойдем в вашу проявленность</p>
+    </div>
+    <section class="cpage-offer" data-reveal style="--reveal-delay: 0.2s" id="tariffs" aria-labelledby="tariffs-title">
+      <h2 class="course__eyebrow" id="tariffs-title">Тарифы</h2>
+      <ul class="course__tariffs">
+        <li class="tariff">
+          <h3 class="tariff__name">Базовый</h3>
+          <p class="tariff__text">8 онлайн-занятий (по 1 часу)</p>
+          <p class="tariff__price">{{ course.tariffs.basic }}</p>
+        </li>
+        <li class="tariff">
+          <h3 class="tariff__name">Индивидуальный</h3>
+          <p class="tariff__text">8 занятий + 1 индивидуальная онлайн-встреча</p>
+          <p class="tariff__price">{{ course.tariffs.individual }}</p>
+        </li>
+      </ul>
+      <div class="course__cta">
+        <a class="btn btn--lg course__btn" {{href links.instagram }}>Записаться</a>
+        <p class="course__note">* нужна предварительная запись в директ</p>
+      </div>
+    </section>
+  </div>
+</header>
+
+<main>
+
+  <section class="program" aria-labelledby="program-title">
+    <div class="container program__inner">
+      <h2 class="h2 program__title" data-reveal id="program-title">Программа курса</h2>
+      <ol class="program__list" data-reveal="stagger">
+        <li class="lesson">
+          <p class="lesson__num">1 урок</p>
+          <ul class="lesson__topics">
+            <li>Строение речевого аппарата</li>
+            <li>Артикуляционная гимнастика</li>
+            <li>Дыхание короткое и длинное</li>
+            <li>Построение туловища</li>
+          </ul>
+        </li>
+        <li class="lesson">
+          <p class="lesson__num">2 урок</p>
+          <ul class="lesson__topics">
+            <li>Что такое "Путешествующий голос" и куда он путешествует?</li>
+            <li>Построение туловища и путешествие наверх</li>
+            <li>Звучание поясницы</li>
+            <li>Прикосновение к звуко-высотному диапазону</li>
+          </ul>
+        </li>
+        <li class="lesson">
+          <p class="lesson__num">3 урок</p>
+          <ul class="lesson__topics">
+            <li>Что такое звуко-высотный диапазон и зачем он нужен?</li>
+            <li>Управление дыханием</li>
+            <li>Звучание, сопряжённое с движением</li>
+            <li>Путешествие голоса в разные уголки тела</li>
+          </ul>
+        </li>
+        <li class="lesson">
+          <p class="lesson__num">4 урок</p>
+          <ul class="lesson__topics">
+            <li>Изучение диафрагмы</li>
+            <li>Трепет диафрагмы</li>
+            <li>Работа с длинным дыханием</li>
+            <li>Звучание с движением</li>
+          </ul>
+        </li>
+        <li class="lesson">
+          <p class="lesson__num">5 урок</p>
+          <ul class="lesson__topics">
+            <li>Что такое резонаторы и как их включить?</li>
+            <li>Индивидуальный массаж и отклик резонаторов</li>
+            <li>Работа с дыханием и звучанием</li>
+            <li>Прикосновение к слову и тексту</li>
+          </ul>
+        </li>
+        <li class="lesson">
+          <p class="lesson__num">6 урок</p>
+          <ul class="lesson__topics">
+            <li>Что такое страх публики и откуда он берётся?</li>
+            <li>"Искусство зажима" или как подружиться со своим страхом?</li>
+            <li>Работа со словом</li>
+            <li>Как разбирать авторский текст и стать автором своей речи?</li>
+            <li>Запись голосовых подкастов</li>
+          </ul>
+        </li>
+        <li class="lesson">
+          <p class="lesson__num">7 урок</p>
+          <ul class="lesson__topics">
+            <li>Первый выход на сцену. Как привлечь внимание зрителя?</li>
+            <li>Влияние на зрителя и ваша харизма</li>
+            <li>Сторителлинг и съёмка видео</li>
+          </ul>
+        </li>
+        <li class="lesson">
+          <p class="lesson__num">8 урок</p>
+          <ul class="lesson__topics">
+            <li>Выход на зрителя /слушателя</li>
+            <li>Навык самопрезентации</li>
+            <li>Речь, как инструмент влияния и воздействия</li>
+            <li>Мой голос - моя сила !</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__top">
+      <p class="footer__logo"><span>Арина</span> <span>Pro. Голос</span></p>
+      <nav class="footer__nav" aria-label="Разделы">
+        <ul>
+          <li><a href="./#about">Обо мне</a></li>
+          <li><a href="./#formats">Форматы работы</a></li>
+          <li><a href="./#course">Курс</a></li>
+          <li><a href="./#reviews">Отзывы</a></li>
+        </ul>
+      </nav>
+      <ul class="footer__social">
+        <li><a {{href links.telegram }}>Telegram</a></li>
+        <li><a {{href links.instagram }}>Instagram</a></li>
+      </ul>
+    </div>
+    <p class="footer__copy">© {{ year }} Арина Иванова<span class="only-d">, тренер по голосу и речи</span></p>
+  </div>
+</footer>
+
+</body>
+</html>

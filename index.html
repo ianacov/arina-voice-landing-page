@@ -14,7 +14,18 @@
        После этого добавить og:url и og:image (1200×630, абсолютный URL). -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <!-- [НУЖНО: apple-touch-icon 180×180 PNG — сделать из выбранного фото или логотипа] -->
+  <!-- Метка .js до первой отрисовки: элементы с data-reveal скрыты сразу, без мигания.
+       Если main.js не запустится за 3 с, метка снимается и всё видно без анимации. -->
+  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.revealReady)document.documentElement.classList.remove('js')},3000)</script>
+  <link rel="stylesheet" href="/src/styles.css">
   <script type="module" src="/src/main.js"></script>
+  <!-- Шрифты первого экрана: качаются сразу, параллельно со стилями, а не после них -->
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-cyrillic-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-cyrillic-500-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/node_modules/@fontsource/montserrat/files/montserrat-latin-500-italic.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
 
@@ -30,11 +41,11 @@
     </ul>
   </nav>
   <div class="container hero__inner">
-    <div class="hero__text">
+    <div class="hero__text" data-reveal="stagger">
       <h1 class="hero__title"><span>Арина</span> <span><span class="hero__pro">Pro.</span> Голос</span></h1>
       <p class="hero__lead">Помогаю услышать истинный голос и звучать так, чтобы слышали и слушали.</p>
     </div>
-    <div class="hero__media">
+    <div class="hero__media" data-reveal style="--reveal-delay: 0.25s">
       <div class="ph hero__photo"><span>Фото</span></div>
       <ul class="hero__tags">
         <li class="tag hero__tag hero__tag--1">актриса</li>
@@ -50,30 +61,30 @@
   <section class="about" id="about" aria-labelledby="about-title">
     <div class="container about__inner">
       <div class="about__row about__row--intro">
-        <div class="about__intro">
+        <div class="about__intro" data-reveal="stagger">
           <h2 class="h2" id="about-title">Познакомимся?</h2>
           <p class="about__text">Меня зовут Арина Иванова. Я тренер по голосу и речи, актриса и режиссёр. Более 12 лет обучаю людей говорить и проявляться. Создала свой авторский курс «Путешествие в голос и проявленность», который прошли люди самых разных профессий.</p>
         </div>
-        <div class="collage collage--a">
+        <div class="collage collage--a" data-reveal>
           <div class="ph collage__photo"><span>Фото</span></div>
           <div class="ph collage__photo"><span>Фото</span></div>
         </div>
       </div>
 
       <div class="about__row about__row--exp">
-        <h3 class="about__subtitle">Образование и профессиональный опыт:</h3>
-        <ul class="exp exp--1">
+        <h3 class="about__subtitle" data-reveal>Образование и профессиональный опыт:</h3>
+        <ul class="exp exp--1" data-reveal="stagger">
           <li><span class="exp__num">[01]</span><span>Петербургская академия театрального искусства, курс Я. М. Туминой — актёрское мастерство</span></li>
           <li><span class="exp__num">[02]</span><span>Академия Н. С. Михалкова, курс В. И. Хотиненко — режиссура художественного фильма</span></li>
           <li><span class="exp__num">[03]</span><span>Участие в спектаклях, съёмки в фильмах и телесериалах</span></li>
           <li><span class="exp__num">[04]</span><span>Автор и режиссёр короткометражных фильмов «За минуту до снега» и «Крылья»</span></li>
         </ul>
-        <div class="collage collage--b">
+        <div class="collage collage--b" data-reveal>
           <div class="ph collage__photo"><span>Фото</span></div>
           <div class="ph collage__photo"><span>Фото</span></div>
           <div class="ph collage__photo"><span>Фото</span></div>
         </div>
-        <ul class="exp exp--2">
+        <ul class="exp exp--2" data-reveal="stagger">
           <li><span class="exp__num">[05]</span><span>Постановка детских спектаклей</span></li>
           <li><span class="exp__num">[06]</span><span>Преподавание речи и голоса — более 12 лет опыта. Провожу занятия индивидуально и в группах, онлайн и очно в Москве. На занятиях работаю с дыханием, голосом и речью, учу ораторскому искусству, деловому общению и публичным выступлениям</span></li>
           <li><span class="exp__num">[07]</span><span>Учитель кундалини-йоги: дыхательные техники и пранаямы</span></li>
@@ -84,15 +95,15 @@
 
   <section class="voice" id="voice" aria-labelledby="voice-title">
     <div class="container voice__inner">
-      <h2 class="h2" id="voice-title">Послушайте мой голос</h2>
-      <div class="video ph" data-video data-video-type="{{ video.type }}" data-video-src="{{ video.src }}">
+      <h2 class="h2" id="voice-title" data-reveal>Послушайте мой голос</h2>
+      <div class="video ph" data-reveal data-video data-video-type="{{ video.type }}" data-video-src="{{ video.src }}">
         <!-- [НУЖНО ОТ КЛИЕНТА: видео и кадр-постер] -->
         <button class="video__play" type="button" aria-label="Смотреть видео">
           <svg viewBox="0 0 22 24" aria-hidden="true"><path d="M3 2.5L20 12L3 21.5Z" fill="currentColor"/></svg>
         </button>
         <span class="video__label">Видео</span>
       </div>
-      <p class="voice__text">Так может звучать и ваш голос — нужны практика и правильные упражнения.</p>
+      <p class="voice__text" data-reveal>Так может звучать и ваш голос — нужны практика и правильные упражнения.</p>
     </div>
   </section>
 
@@ -102,17 +113,17 @@
     <svg class="waves waves--dr" width="1440" height="1160" viewBox="0 0 1440 1160" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M1374 40 L1375 43 L1375 46 L1373 49 L1371 52 L1368 54 L1366 56 L1363 58 L1361 61 L1359 63 L1356 65 L1354 67 L1351 69 L1347 69 L1343 69 L1339 68 L1336 67 L1333 66 L1330 65 L1327 66 L1324 67 L1320 69 L1316 71 L1312 72 L1307 72 L1303 71 L1300 69 L1297 66 L1295 64 L1293 61 L1292 57 L1292 54 L1291 51 L1292 48 L1292 45 L1293 43 L1294 40 L1295 38 L1296 35 L1296 33 L1296 30 L1296 27 L1296 24 L1297 22 L1299 19 L1302 18 L1305 16 L1308 15 L1311 13 L1313 11 L1316 9 L1319 6 L1322 4 L1326 2 L1330 1 L1334 2 L1338 4 L1341 7 L1343 10 L1345 14 L1347 16 L1349 18 L1351 20 L1354 21 L1356 22 L1359 24 L1362 25 L1364 27 L1366 29 L1369 32 L1371 34 L1373 37 L1374 40 Z"/><path d="M1423 40 L1423 46 L1420 53 L1415 58 L1409 63 L1403 67 L1398 71 L1394 76 L1391 81 L1387 86 L1383 91 L1377 94 L1370 96 L1363 96 L1355 95 L1348 93 L1341 92 L1336 92 L1330 93 L1324 96 L1317 99 L1309 102 L1301 103 L1293 104 L1285 103 L1277 100 L1270 97 L1264 92 L1259 87 L1256 82 L1253 75 L1253 69 L1254 62 L1256 56 L1259 50 L1262 45 L1263 40 L1263 35 L1262 30 L1260 25 L1258 19 L1258 13 L1260 7 L1263 3 L1268 -1 L1274 -5 L1280 -7 L1285 -11 L1290 -15 L1295 -20 L1300 -25 L1306 -30 L1314 -34 L1322 -35 L1330 -35 L1338 -32 L1345 -27 L1351 -22 L1356 -17 L1360 -12 L1365 -8 L1369 -4 L1373 -1 L1378 2 L1382 5 L1387 8 L1392 11 L1398 15 L1404 18 L1411 23 L1417 28 L1421 34 L1423 40 Z"/><path d="M1479 40 L1474 50 L1466 59 L1457 67 L1448 74 L1441 81 L1435 89 L1431 96 L1426 104 L1420 112 L1411 117 L1401 121 L1390 123 L1378 123 L1368 123 L1358 123 L1348 124 L1339 126 L1330 130 L1320 133 L1309 137 L1297 139 L1285 139 L1273 139 L1260 137 L1248 134 L1236 129 L1226 123 L1218 115 L1212 106 L1211 95 L1213 84 L1217 73 L1223 63 L1228 54 L1230 47 L1229 40 L1225 33 L1220 24 L1215 15 L1213 6 L1214 -3 L1219 -11 L1226 -18 L1234 -24 L1243 -30 L1251 -36 L1258 -43 L1265 -50 L1273 -58 L1282 -65 L1293 -70 L1305 -73 L1318 -73 L1330 -70 L1342 -66 L1352 -60 L1362 -55 L1370 -49 L1378 -43 L1385 -37 L1391 -30 L1397 -24 L1403 -18 L1409 -13 L1417 -9 L1427 -5 L1439 -1 L1452 4 L1465 11 L1474 20 L1479 30 L1479 40 Z"/><path d="M1529 40 L1520 53 L1509 65 L1498 76 L1489 86 L1481 96 L1475 107 L1467 117 L1459 126 L1448 134 L1435 140 L1421 144 L1407 147 L1394 150 L1382 154 L1369 157 L1357 162 L1344 166 L1330 169 L1316 172 L1301 173 L1285 173 L1269 173 L1252 173 L1235 172 L1216 170 L1200 164 L1186 156 L1176 143 L1173 128 L1175 112 L1181 96 L1188 81 L1194 69 L1197 59 L1195 49 L1189 40 L1181 30 L1174 18 L1169 6 L1169 -7 L1173 -19 L1180 -29 L1189 -39 L1198 -49 L1207 -58 L1216 -68 L1226 -79 L1237 -88 L1251 -96 L1265 -102 L1281 -105 L1298 -106 L1314 -105 L1330 -103 L1345 -99 L1360 -95 L1373 -90 L1386 -82 L1396 -73 L1405 -63 L1411 -53 L1418 -44 L1426 -37 L1437 -32 L1451 -28 L1469 -24 L1489 -19 L1508 -12 L1523 -1 L1532 12 L1533 26 L1529 40 Z"/><path d="M1574 40 L1564 56 L1553 71 L1543 86 L1533 99 L1523 112 L1511 124 L1499 134 L1485 144 L1470 152 L1455 159 L1441 166 L1427 174 L1413 183 L1399 191 L1383 198 L1366 204 L1348 206 L1330 207 L1312 207 L1293 206 L1274 207 L1253 210 L1230 212 L1206 212 L1182 209 L1162 200 L1148 186 L1141 167 L1141 146 L1147 125 L1154 106 L1160 89 L1163 76 L1160 64 L1153 52 L1144 40 L1136 26 L1130 12 L1127 -3 L1129 -19 L1133 -34 L1139 -48 L1146 -63 L1155 -77 L1166 -91 L1179 -104 L1194 -115 L1212 -124 L1232 -129 L1252 -132 L1272 -134 L1291 -135 L1311 -136 L1330 -137 L1349 -136 L1368 -132 L1385 -125 L1400 -114 L1412 -100 L1421 -86 L1429 -73 L1439 -64 L1452 -58 L1470 -54 L1493 -52 L1519 -47 L1544 -40 L1564 -28 L1578 -13 L1584 4 L1582 22 L1574 40 Z"/><path d="M1622 40 L1613 60 L1603 78 L1590 96 L1575 111 L1558 125 L1539 137 L1521 147 L1504 157 L1489 168 L1477 180 L1465 194 L1452 209 L1436 222 L1418 233 L1397 240 L1375 243 L1352 242 L1330 241 L1308 240 L1285 242 L1261 247 L1234 252 L1205 255 L1176 254 L1150 246 L1130 230 L1119 209 L1115 185 L1116 160 L1121 136 L1125 116 L1127 99 L1124 84 L1118 70 L1110 55 L1102 40 L1095 24 L1091 6 L1088 -12 L1086 -31 L1087 -51 L1089 -71 L1095 -92 L1106 -110 L1122 -127 L1142 -139 L1166 -147 L1192 -152 L1217 -155 L1240 -158 L1262 -162 L1284 -167 L1307 -172 L1330 -175 L1353 -174 L1376 -167 L1395 -155 L1411 -139 L1424 -122 L1436 -106 L1448 -95 L1465 -88 L1486 -85 L1513 -83 L1542 -79 L1572 -72 L1597 -60 L1615 -43 L1626 -24 L1630 -2 L1628 19 L1622 40 Z"/><path d="M1677 40 L1668 64 L1653 86 L1632 105 L1607 121 L1582 134 L1558 145 L1539 157 L1525 171 L1514 188 L1506 207 L1495 229 L1480 248 L1460 264 L1436 274 L1410 278 L1382 277 L1356 276 L1330 276 L1304 279 L1276 286 L1245 293 L1212 298 L1180 298 L1149 290 L1125 275 L1107 253 L1097 227 L1092 200 L1091 174 L1090 151 L1089 130 L1086 111 L1082 93 L1077 76 L1073 58 L1067 40 L1060 21 L1052 1 L1043 -22 L1034 -46 L1029 -72 L1030 -99 L1039 -123 L1057 -143 L1083 -157 L1114 -166 L1145 -171 L1175 -174 L1203 -178 L1228 -185 L1252 -194 L1276 -203 L1303 -210 L1330 -212 L1357 -207 L1382 -195 L1403 -178 L1421 -160 L1437 -144 L1454 -132 L1475 -125 L1499 -121 L1528 -118 L1559 -114 L1590 -106 L1619 -93 L1642 -76 L1659 -56 L1671 -33 L1678 -9 L1680 15 L1677 40 Z"/><path d="M1528 1080 L1527 1083 L1525 1086 L1523 1089 L1520 1092 L1518 1094 L1516 1097 L1515 1099 L1514 1103 L1514 1107 L1514 1112 L1512 1117 L1510 1121 L1506 1124 L1501 1126 L1495 1126 L1490 1125 L1485 1123 L1480 1120 L1476 1119 L1472 1117 L1468 1116 L1464 1115 L1460 1114 L1457 1112 L1453 1110 L1450 1108 L1448 1106 L1445 1103 L1443 1101 L1440 1099 L1437 1096 L1434 1093 L1432 1090 L1430 1087 L1429 1084 L1428 1080 L1428 1076 L1427 1073 L1426 1069 L1426 1064 L1427 1060 L1429 1057 L1433 1053 L1438 1051 L1443 1051 L1449 1051 L1455 1051 L1460 1052 L1464 1052 L1467 1051 L1470 1049 L1472 1046 L1476 1043 L1480 1040 L1485 1039 L1489 1038 L1494 1039 L1498 1040 L1502 1041 L1507 1043 L1511 1045 L1515 1047 L1519 1049 L1522 1052 L1524 1055 L1526 1059 L1527 1062 L1528 1066 L1528 1070 L1529 1073 L1529 1077 L1528 1080 Z"/><path d="M1578 1080 L1575 1087 L1570 1093 L1564 1098 L1558 1103 L1554 1108 L1552 1113 L1552 1120 L1553 1129 L1553 1138 L1552 1148 L1547 1157 L1541 1164 L1531 1168 L1521 1170 L1510 1169 L1499 1166 L1489 1163 L1480 1160 L1472 1157 L1464 1155 L1456 1152 L1449 1149 L1442 1145 L1436 1141 L1430 1138 L1423 1134 L1416 1131 L1408 1128 L1401 1124 L1394 1120 L1388 1114 L1384 1108 L1381 1101 L1380 1094 L1379 1087 L1378 1080 L1376 1073 L1373 1065 L1371 1057 L1371 1048 L1373 1040 L1379 1033 L1388 1028 L1399 1026 L1411 1025 L1423 1026 L1433 1026 L1441 1025 L1447 1023 L1452 1019 L1458 1014 L1464 1009 L1472 1004 L1480 1000 L1489 998 L1498 997 L1508 997 L1517 998 L1527 1000 L1536 1003 L1544 1007 L1552 1012 L1557 1018 L1562 1025 L1565 1033 L1567 1040 L1569 1047 L1572 1053 L1574 1060 L1577 1066 L1578 1073 L1578 1080 Z"/><path d="M1626 1080 L1619 1090 L1611 1098 L1603 1106 L1597 1114 L1594 1123 L1594 1133 L1596 1145 L1597 1158 L1596 1172 L1591 1185 L1582 1196 L1569 1204 L1555 1208 L1539 1210 L1523 1210 L1508 1208 L1494 1205 L1480 1201 L1467 1196 L1456 1190 L1445 1183 L1436 1177 L1427 1171 L1417 1167 L1406 1164 L1394 1162 L1380 1160 L1366 1157 L1354 1151 L1344 1143 L1338 1133 L1334 1122 L1333 1112 L1332 1101 L1330 1091 L1326 1080 L1320 1069 L1315 1057 L1313 1044 L1315 1032 L1322 1021 L1334 1013 L1350 1007 L1367 1004 L1383 1003 L1398 1002 L1410 1000 L1419 996 L1428 991 L1437 985 L1446 978 L1456 972 L1468 966 L1480 961 L1493 957 L1508 954 L1523 952 L1538 951 L1553 954 L1567 959 L1578 968 L1586 979 L1592 990 L1596 1002 L1599 1013 L1604 1023 L1609 1032 L1616 1040 L1623 1049 L1627 1059 L1628 1070 L1626 1080 Z"/><path d="M1667 1080 L1659 1093 L1651 1104 L1645 1115 L1643 1127 L1643 1141 L1645 1156 L1645 1173 L1643 1189 L1637 1205 L1626 1220 L1612 1231 L1596 1241 L1578 1247 L1558 1252 L1538 1253 L1518 1252 L1498 1248 L1480 1240 L1464 1230 L1449 1219 L1437 1209 L1425 1201 L1412 1197 L1397 1195 L1379 1196 L1359 1196 L1338 1193 L1320 1188 L1305 1178 L1296 1165 L1290 1151 L1287 1136 L1285 1122 L1281 1108 L1275 1094 L1267 1080 L1260 1065 L1257 1049 L1259 1033 L1267 1018 L1280 1006 L1298 996 L1318 989 L1337 984 L1354 979 L1369 974 L1383 969 L1396 963 L1408 957 L1421 951 L1435 944 L1449 937 L1463 929 L1480 920 L1498 911 L1519 904 L1540 900 L1562 900 L1581 907 L1597 918 L1608 934 L1616 951 L1621 967 L1626 982 L1633 994 L1642 1005 L1653 1016 L1663 1027 L1671 1039 L1675 1052 L1673 1066 L1667 1080 Z"/><path d="M1706 1080 L1702 1096 L1699 1111 L1698 1127 L1699 1144 L1699 1162 L1698 1181 L1693 1199 L1685 1217 L1673 1235 L1659 1250 L1642 1265 L1623 1279 L1602 1290 L1579 1297 L1553 1299 L1527 1295 L1502 1285 L1480 1271 L1461 1255 L1445 1241 L1429 1231 L1413 1227 L1394 1227 L1372 1230 L1346 1233 L1320 1233 L1295 1228 L1275 1218 L1260 1203 L1251 1186 L1244 1168 L1238 1151 L1231 1133 L1222 1116 L1214 1099 L1206 1080 L1204 1061 L1206 1041 L1215 1023 L1229 1007 L1246 993 L1265 981 L1284 970 L1302 960 L1320 952 L1337 944 L1355 938 L1373 932 L1391 927 L1408 921 L1424 913 L1441 901 L1459 887 L1480 871 L1504 857 L1531 847 L1559 845 L1584 851 L1606 865 L1622 884 L1633 905 L1641 927 L1649 945 L1658 960 L1670 974 L1684 986 L1697 999 L1708 1014 L1714 1030 L1715 1047 L1712 1064 L1706 1080 Z"/></svg>
 
     <div class="container method__inner">
-      <div class="method__head">
+      <div class="method__head" data-reveal="stagger">
         <h2 class="method__title" id="method-title">Мой метод</h2>
         <p class="method__subtitle">Голос, который путешествует</p>
       </div>
-      <p class="method__text">Большинство тренеров учат «правильно» ставить голос. Я учу им управлять. Мы работаем со звуковысотным диапазоном — от низких грудных звуков до лёгких высоких, — и голос перестаёт жить только в горле. Он путешествует по всему телу и выходит за его пределы, заполняя пространство вокруг. Так и рождается проявленность: вас слышно, даже когда вы говорите негромко.</p>
+      <p class="method__text" data-reveal>Большинство тренеров учат «правильно» ставить голос. Я учу им управлять. Мы работаем со звуковысотным диапазоном — от низких грудных звуков до лёгких высоких, — и голос перестаёт жить только в горле. Он путешествует по всему телу и выходит за его пределы, заполняя пространство вокруг. Так и рождается проявленность: вас слышно, даже когда вы говорите негромко.</p>
 
       <div class="route">
         <!-- Десктоп: весь маршрут одной линией; масштабируется вместе с блоком -->
         <svg class="route__path" viewBox="0 0 1200 540" fill="none" aria-hidden="true"><path d="M55 40 C0 95 -10 175 40 235 C120 330 300 340 410 300 C440 235 520 195 600 195 C690 195 705 120 745 50" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 9"/></svg>
 
-        <ol class="route__steps">
+        <ol class="route__steps" data-reveal="stagger">
           <li class="route__step route__step--1">
             <svg class="route__segment" viewBox="0 0 48 250" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M24 0 C2 76 46 166 24 250" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 8" vector-effect="non-scaling-stroke"/></svg>
             <span class="route__num" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c1.5-5 3.5-5 5 0s3.5 5 5 0 3.5-5 5 0 3.5 5 5 0"/></svg></span>
@@ -146,8 +157,8 @@
 
   <section class="fit" id="fit" aria-labelledby="fit-title">
     <div class="container fit__inner">
-      <h2 class="h2 fit__title" id="fit-title">Вам подойдёт работа со мной, если</h2>
-      <ul class="fit__grid">
+      <h2 class="h2 fit__title" data-reveal id="fit-title">Вам подойдёт работа со мной, если</h2>
+      <ul class="fit__grid" data-reveal="stagger">
         <li class="fit__card"><span class="fit__art"><img src="/images/illustrations/fear.png" alt="" width="111" height="100" loading="lazy" style="--w-m: 69; --w-d: 111"></span><span class="fit__text">Страшно выступать на публике</span></li>
         <li class="fit__card"><span class="fit__art"><img src="/images/illustrations/quiet.png" alt="" width="183" height="72" loading="lazy" style="--w-m: 114; --w-d: 183"></span><span class="fit__text">Голос тихий и блёклый</span></li>
         <li class="fit__card"><span class="fit__art"><img src="/images/illustrations/unsure.png" alt="" width="230" height="87" loading="lazy" style="--w-m: 135; --w-d: 230"></span><span class="fit__text">Не уверен(а) в себе</span></li>
@@ -160,11 +171,11 @@
 
   <section class="results" id="results" aria-labelledby="results-title">
     <div class="container results__inner">
-      <div class="results__head">
+      <div class="results__head" data-reveal>
         <svg class="results__spark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 4 L18 22"/><path d="M24 2 L24 20"/><path d="M2 20 L16 28"/></svg>
         <h2 class="h2 results__title" id="results-title">Результаты работы со мной</h2>
       </div>
-      <ul class="results__list">
+      <ul class="results__list" data-reveal="stagger">
         <li>появляется ощущение опоры в голосе</li>
         <li>речь звучит собранно, понятно и красиво</li>
         <li>говорить становится легче и спокойнее, без постоянного контроля</li>
@@ -178,11 +189,11 @@
 
   <section class="formats" id="formats" aria-labelledby="formats-title">
     <div class="container">
-      <h2 class="h2 formats__title" id="formats-title">Форматы работы</h2>
+      <h2 class="h2 formats__title" data-reveal id="formats-title">Форматы работы</h2>
     </div>
     <!-- Тексты форматов — от клиента, дословно. Цены — в src/site-config.js -->
     <div class="container">
-      <ul class="formats__grid">
+      <ul class="formats__grid" data-reveal="stagger">
         <li class="card">
           <h3 class="card__title">Первичная консультация</h3>
           <dl class="card__facts">
@@ -254,45 +265,31 @@
   </section>
 
   <section class="course" id="course" aria-labelledby="course-title">
-    <!-- Тексты курса — от клиента, дословно. Дата и цены — в src/site-config.js -->
+    <!-- Тексты курса — от клиента, дословно. Дата — в src/site-config.js. Тарифы — на странице курса (course.html) -->
     <div class="container course__inner">
-      <div class="course__head">
+      <div class="course__head" data-reveal>
         <p class="course__eyebrow">Авторский курс</p>
         <h2 class="h2 course__title" id="course-title">Путешествие в голос и проявленность</h2>
       </div>
-      <div class="ph course__photo"><span>Фото</span></div>
-      <div class="course__meta">
+      <div class="ph course__photo" data-reveal><span>Фото</span></div>
+      <div class="course__meta" data-reveal>
         <p class="course__start">Старт — {{ course.start }}</p>
-        <p class="course__format">Продолжительность 1 месяц</p>
       </div>
-      <p class="course__text"><span class="course__label">Цель:</span> откроем Ваш истинный голос, поработаем над речью и пойдем в вашу проявленность</p>
-      <ul class="course__tariffs">
-        <li class="tariff">
-          <h3 class="tariff__name">Базовый</h3>
-          <p class="tariff__text">8 онлайн-занятий (по 1 часу)</p>
-          <p class="tariff__price">{{ course.tariffs.basic }}</p>
-        </li>
-        <li class="tariff">
-          <h3 class="tariff__name">Индивидуальный</h3>
-          <p class="tariff__text">8 занятий + 1 индивидуальная онлайн-встреча</p>
-          <p class="tariff__price">{{ course.tariffs.individual }}</p>
-        </li>
-      </ul>
-      <div class="course__cta">
-        <a class="btn btn--lg course__btn" {{href links.instagram }}>Записаться</a>
-        <p class="course__note">* нужна предварительная запись в директ</p>
+      <p class="course__text" data-reveal><span class="course__label">Цель:</span> откроем Ваш истинный голос, поработаем над речью и пойдем в вашу проявленность</p>
+      <div class="course__cta" data-reveal>
+        <a class="btn btn--lg course__btn" href="course.html">Узнайте подробнее</a>
       </div>
     </div>
   </section>
 
   <section class="reviews" id="reviews" aria-labelledby="reviews-title">
     <div class="container">
-      <h2 class="h2 reviews__title" id="reviews-title">Отзывы учеников</h2>
+      <h2 class="h2 reviews__title" data-reveal id="reviews-title">Отзывы учеников</h2>
     </div>
     <!-- [НУЖНО ОТ КЛИЕНТА: реальные отзывы — имена, фото, тексты].
          Ниже тексты из макета, их нельзя публиковать без замены. -->
     <div class="slider" data-slider>
-      <ul class="slider__track reviews__track" data-slider-track tabindex="0" aria-label="Отзывы учеников, прокручиваются по горизонтали">
+      <ul class="slider__track reviews__track" data-reveal="stagger" data-slider-track tabindex="0" aria-label="Отзывы учеников, прокручиваются по горизонтали">
         <li class="review">
           <blockquote class="review__text"><p>Боялась выступать даже на планёрках. После занятий с Ариной провела презентацию для всего отдела — и меня впервые слушали, а не перебивали.</p></blockquote>
           <p class="review__author"><span class="review__avatar" aria-hidden="true"></span><span class="review__name">Мария К.</span></p>
@@ -318,7 +315,7 @@
   <section class="contacts" id="contacts" aria-labelledby="contacts-title">
     <!-- Мобильный: тёмный блок, переходящий в подвал (Main-2).
          Десктоп: та же структура отдельной светлой секцией. -->
-    <div class="container contacts__inner">
+    <div class="container contacts__inner" data-reveal="stagger">
       <h2 class="h2 contacts__title" id="contacts-title">Давайте познакомимся</h2>
       <p class="contacts__text">Напишите мне — подберём формат занятий под вашу задачу.</p>
       <div class="contacts__buttons">
