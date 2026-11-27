@@ -1,16 +1,14 @@
 // Стили и шрифты подключены в <head> (link rel=stylesheet), а не отсюда:
 // так страница не показывается без стилей ни в dev-режиме, ни на сайте.
 
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-// Видео-фасад: плеер загружается только по клику на ▶.
+// Видео-фасад («Фрагменты уроков»): плеер загружается только по клику на ▶.
 function initVideo(root) {
   const button = root.querySelector('.video__play');
   const { videoType, videoSrc } = root.dataset;
 
   if (!videoSrc) {
     // [НУЖНО ОТ КЛИЕНТА: видео] — пока источника нет, кнопка ничего не загружает.
-    button.dataset.todo = 'НУЖНО ОТ КЛИЕНТА: video.src';
+    button.dataset.todo = 'НУЖНО ОТ КЛИЕНТА: lessons[].src';
     return;
   }
 
@@ -19,7 +17,7 @@ function initVideo(root) {
     if (videoType === 'iframe') {
       player = document.createElement('iframe');
       player.src = videoSrc;
-      player.title = 'Видео: послушайте мой голос';
+      player.title = button.getAttribute('aria-label');
       player.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
       player.allowFullscreen = true;
     } else {
@@ -34,33 +32,49 @@ function initVideo(root) {
   }, { once: true });
 }
 
-// Горизонтальная лента карточек (форматы, отзывы): кнопка «дальше»
-// и полоса прогресса. Если карточки помещаются без прокрутки,
-// кнопка и полоса прячутся.
-function initSlider(root) {
-  const track = root.querySelector('[data-slider-track]');
-  const controls = root.querySelector('[data-slider-controls]');
-  const next = root.querySelector('[data-slider-next]');
-  const bar = root.querySelector('[data-slider-bar]');
+// Аудиоплеер («Послушайте мой голос»): ▶/❚❚ и текущее время.
+// Файл не качается, пока не нажали ▶ (preload="none").
+function initAudio(root) {
+  const button = root.querySelector('.player__play');
+  const time = root.querySelector('.player__time');
+  const src = root.dataset.audioSrc;
 
-  const update = () => {
-    const scrollable = track.scrollWidth > track.clientWidth + 1;
-    controls.hidden = !scrollable;
-    const visible = (track.scrollLeft + track.clientWidth) / track.scrollWidth;
-    bar.style.width = `${Math.min(1, visible) * 100}%`;
+  if (!src) {
+    // [НУЖНО ОТ КЛИЕНТА: аудио] — пока источника нет, кнопка ничего не играет.
+    button.dataset.todo = 'НУЖНО ОТ КЛИЕНТА: audio.src';
+    return;
+  }
+
+  const audio = new Audio();
+  audio.preload = 'none';
+  audio.src = src;
+  const format = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  const setPlaying = (playing) => {
+    root.classList.toggle('is-playing', playing);
+    button.setAttribute('aria-label', playing ? 'Пауза' : 'Слушать аудио');
   };
 
-  next.addEventListener('click', () => {
-    const behavior = reducedMotion.matches ? 'auto' : 'smooth';
-    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
-    if (atEnd) {
-      track.scrollTo({ left: 0, behavior });
-      return;
-    }
-    const card = track.firstElementChild;
-    const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
-    track.scrollBy({ left: step, behavior });
-  });
+  button.addEventListener('click', () => (audio.paused ? audio.play() : audio.pause()));
+  audio.addEventListener('play', () => setPlaying(true));
+  audio.addEventListener('pause', () => setPlaying(false));
+  audio.addEventListener('timeupdate', () => { time.textContent = format(audio.currentTime); });
+}
+
+// Горизонтальная лента карточек на мобильном (фрагменты уроков, отзывы)
+// с точками-индикаторами. Если карточки помещаются без прокрутки
+// (на десктопе это сетка), точки прячутся.
+function initSlider(root) {
+  const track = root.querySelector('[data-slider-track]');
+  const dots = root.querySelector('[data-slider-dots]');
+  const count = track.children.length;
+  dots.replaceChildren(...Array.from({ length: count }, () => document.createElement('span')));
+
+  const update = () => {
+    const max = track.scrollWidth - track.clientWidth;
+    dots.hidden = max <= 1;
+    const active = max > 1 ? Math.round((track.scrollLeft / max) * (count - 1)) : 0;
+    [...dots.children].forEach((dot, i) => dot.classList.toggle('is-active', i === active));
+  };
 
   track.addEventListener('scroll', update, { passive: true });
   new ResizeObserver(update).observe(track);
@@ -91,5 +105,6 @@ function initReveal() {
 }
 
 document.querySelectorAll('[data-video]').forEach(initVideo);
+document.querySelectorAll('[data-audio]').forEach(initAudio);
 document.querySelectorAll('[data-slider]').forEach(initSlider);
 initReveal();
