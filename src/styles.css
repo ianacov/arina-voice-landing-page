@@ -194,6 +194,12 @@ button[data-todo] {
     opacity: 0;
     translate: 0 24px;
   }
+
+  /* В горизонтальных лентах — только проявление, без сдвига вниз:
+     сдвинутая карточка делает ленту выше и та «ездит» по вертикали */
+  .js .slider__track[data-reveal='stagger'] > :not(.is-visible) {
+    translate: none;
+  }
 }
 
 /* ---------- Общие элементы ---------- */
@@ -281,7 +287,12 @@ button[data-todo] {
   gap: 16px;
   margin-inline: calc(-1 * var(--gutter));
   padding: 4px var(--gutter) 16px;
+  /* Только горизонталь: без overflow-y: hidden лента становится
+     прокручиваемой и по вертикали (карточки «ездят» под пальцем),
+     а вертикальный свайп по ней должен листать страницу */
   overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scroll-padding-inline: var(--gutter);
   scrollbar-width: none;
@@ -434,6 +445,8 @@ button[data-todo] {
 .hero__frame {
   position: relative;
   width: min(100cqw, 100cqh * 460 / 695, clamp(330px, 330px + 130 * var(--fl), 460px));
+  /* Плашки меряются от ширины фото (cqw) и уменьшаются вместе с ним */
+  container-type: inline-size;
 }
 
 .hero__photo {
@@ -441,13 +454,22 @@ button[data-todo] {
   aspect-ratio: 460 / 695;
 }
 
+/* Плашки стоят только на свободном фоне, не на фигуре:
+   «актриса» — справа вверху (над поднятой рукой пусто),
+   «режиссёр» — слева внизу (левее опорной ноги),
+   «тренер» — под стопами. Размеры — как в макете при фото 330 (мобильный). */
 .hero__tag {
   position: absolute;
+  padding: 0.57em 1.14em;
+  font-size: max(11px, 4.24cqw);
 }
 
-.hero__tag--1 { right: -14px; top: 9.6%; }
-.hero__tag--2 { left: -14px; top: 42.2%; }
-.hero__tag--3 { right: -14px; bottom: 2.8%; }
+/* К фото привязан только внутренний край плашки (в долях ширины фото,
+   у края свободного фона); наружу плашка растёт за пределы фото.
+   Так на маленьком фото с крупным шрифтом она не наезжает на фигуру. */
+.hero__tag--1 { left: 77%; top: 9.6%; }
+.hero__tag--2 { right: 72.4%; top: 76%; }
+.hero__tag--3 { left: 38%; bottom: 1.8%; }
 
 @media (min-width: 1024px) {
   .hero {
@@ -497,9 +519,15 @@ button[data-todo] {
     width: clamp(260px, (100svh - 160px) * 460 / 695, min(460px, 32vw));
   }
 
-  .hero__tag--1 { right: -56px; top: 10.4%; }
-  .hero__tag--2 { left: -40px; top: 43.2%; }
-  .hero__tag--3 { right: -56px; bottom: 2.9%; }
+  /* Десктоп: размеры как в макете при фото 460 */
+  .hero__tag {
+    padding: 0.56em 1.22em;
+    font-size: max(12px, 3.91cqw);
+  }
+
+  .hero__tag--1 { left: 86%; top: 10.4%; }
+  .hero__tag--2 { right: 78.3%; top: 76%; }
+  .hero__tag--3 { left: 50.8%; bottom: 1.8%; }
 }
 
 /* ---------- 2. Обо мне ---------- */
@@ -927,39 +955,94 @@ button[data-todo] {
   color: var(--c-light-85);
 }
 
-/* Маршрут. Мобильный: три шага сверху вниз, «змейка» между кружками */
+/* Маршрут. Мобильный: три шага сверху вниз. Тропа между кружками —
+   пунктирный уголок «└──┐»: вниз вдоль своего края (рядом с текстом,
+   не по нему), поперёк в промежутке между шагами, вниз к следующему
+   кружку. Строится от высоты шага, поэтому текст не задевает на любой
+   ширине. */
 .route {
+  --route-gap: 48px;  /* промежуток между шагами */
+  --route-x: 22.5px;  /* центр кружка (24) минус половина линии */
+  --route-line: 3px dotted var(--c-gold);
   position: relative;
   width: 100%;
   max-width: 520px;
-  height: 700px;
   margin: 8px auto 0;
   color: var(--c-gold);
 }
 
 .route__path {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.route__path--d {
   display: none;
 }
 
+.route__steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--route-gap);
+}
+
 .route__step {
-  position: absolute;
-  left: 0;
-  right: 0;
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: 16px;
 }
 
-.route__step--1 { top: 0; }
-.route__step--2 { top: 300px; flex-direction: row-reverse; text-align: right; }
-.route__step--3 { top: 600px; }
+.route__step--2 {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.route__step:not(:last-child)::before,
+.route__step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Вниз от кружка и поворот поперёк — под серединой промежутка */
+.route__step:not(:last-child)::before {
+  top: 54px;
+  bottom: calc(var(--route-gap) / -2 - 1.5px);
+  border-bottom: var(--route-line);
+}
+
+/* Поворот вниз и спуск к следующему кружку */
+.route__step:not(:last-child)::after {
+  top: calc(100% + var(--route-gap) / 2 - 1.5px);
+  height: calc(var(--route-gap) / 2 - 4.5px);
+  border-top: var(--route-line);
+}
+
+/* Шаги 1 и 3: кружок слева, следующий — справа */
+.route__step--1::before {
+  left: var(--route-x);
+  right: 50%;
+  border-left: var(--route-line);
+  border-bottom-left-radius: 18px;
+}
+
+.route__step--1::after {
+  left: 50%;
+  right: var(--route-x);
+  border-right: var(--route-line);
+  border-top-right-radius: 18px;
+}
+
+/* Шаг 2: кружок справа, следующий — слева */
+.route__step--2::before {
+  right: var(--route-x);
+  left: 50%;
+  border-right: var(--route-line);
+  border-bottom-right-radius: 18px;
+}
+
+.route__step--2::after {
+  right: 50%;
+  left: var(--route-x);
+  border-left: var(--route-line);
+  border-top-left-radius: 18px;
+}
 
 .route__num {
   flex: none;
@@ -1035,16 +1118,26 @@ button[data-todo] {
     container-type: inline-size;
   }
 
-  .route__path--m {
-    display: none;
+  .route__path--d {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
-  .route__path--d {
+  .route__steps {
     display: block;
   }
 
+  /* На десктопе тропа — одна SVG-линия, уголки не нужны */
+  .route__step::before,
+  .route__step::after {
+    content: none !important;
+  }
+
   .route__step {
-    right: auto;
+    position: absolute;
     gap: 1.83cqi;
     flex-direction: row;
     text-align: left;
@@ -1148,8 +1241,8 @@ button[data-todo] {
   .fit__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     row-gap: 0;
-    /* 2 ряда карточек ≈ 0.675 × ширины сетки; ~240px — заголовок и поля */
-    width: min(116.67%, (100svh - 240px) * 1.48);
+    /* 2 ряда карточек ≈ 0.675 × ширины сетки; ~200px — заголовок и поля */
+    width: min(116.67%, (100svh - 200px) * 1.48);
   }
 
   .fit__card {
