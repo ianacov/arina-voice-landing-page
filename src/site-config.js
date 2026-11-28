@@ -10,9 +10,12 @@ export const site = {
   year: 2026,
 
   links: {
-    telegram: '', // [НУЖНО ОТ КЛИЕНТА: ник в Telegram], например https://t.me/nick
-    // Instagram: ссылка на профиль/Директ. Ведут кнопки «Instagram» и «Записаться» в курсе
-    // (запись на курс — через Директ).
+    // Telegram-канал. Ведут «Telegram канал» в контактах и «Telegram» в подвале.
+    telegram: 'https://t.me/travelling_voice',
+    // Личный чат с Ариной в Telegram (директ). Ведут «Написать в директ»
+    // в контактах и «Записаться» на странице курса (запись — через директ).
+    direct: 'https://t.me/arinalyna',
+    // Ведёт «Instagram» в подвале.
     instagram: '', // [НУЖНО ОТ КЛИЕНТА: ссылка на Instagram]
   },
 

@@ -60,21 +60,43 @@ function initAudio(root) {
   audio.addEventListener('timeupdate', () => { time.textContent = format(audio.currentTime); });
 }
 
-// Горизонтальная лента карточек на мобильном (фрагменты уроков, отзывы)
-// с точками-индикаторами. Если карточки помещаются без прокрутки
-// (на десктопе это сетка), точки прячутся.
+// Горизонтальная лента карточек (фрагменты уроков, отзывы) с точками
+// и, если есть в разметке, стрелками. Точка = одна позиция прокрутки
+// (шаг в одну карточку). Если карточки помещаются без прокрутки
+// (например, сетка уроков на десктопе), точки и стрелки прячутся.
 function initSlider(root) {
   const track = root.querySelector('[data-slider-track]');
   const dots = root.querySelector('[data-slider-dots]');
-  const count = track.children.length;
-  dots.replaceChildren(...Array.from({ length: count }, () => document.createElement('span')));
+  const prev = root.querySelector('[data-slider-prev]');
+  const next = root.querySelector('[data-slider-next]');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const step = () => track.children[0].offsetWidth + (parseFloat(getComputedStyle(track).columnGap) || 0);
 
   const update = () => {
     const max = track.scrollWidth - track.clientWidth;
-    dots.hidden = max <= 1;
-    const active = max > 1 ? Math.round((track.scrollLeft / max) * (count - 1)) : 0;
+    const scrollable = max > 1;
+    const positions = scrollable ? Math.round(max / step()) + 1 : 1;
+    if (dots.children.length !== positions) {
+      dots.replaceChildren(...Array.from({ length: positions }, () => document.createElement('span')));
+    }
+    const active = scrollable ? Math.min(positions - 1, Math.round(track.scrollLeft / step())) : 0;
     [...dots.children].forEach((dot, i) => dot.classList.toggle('is-active', i === active));
+    dots.hidden = !scrollable;
+
+    if (prev && next) {
+      prev.hidden = next.hidden = !scrollable;
+      prev.disabled = track.scrollLeft <= 1;
+      next.disabled = track.scrollLeft >= max - 1;
+    }
   };
+
+  const scrollByCards = (dir) => track.scrollBy({
+    left: dir * step(),
+    behavior: reduceMotion.matches ? 'auto' : 'smooth',
+  });
+  prev?.addEventListener('click', () => scrollByCards(-1));
+  next?.addEventListener('click', () => scrollByCards(1));
 
   track.addEventListener('scroll', update, { passive: true });
   new ResizeObserver(update).observe(track);
@@ -104,6 +126,30 @@ function initReveal() {
   window.revealReady = true; // см. подстраховку в <head>
 }
 
+// Внешние ссылки (Telegram, Instagram и т. п.) на десктопе открываются
+// в новой вкладке, чтобы сайт оставался открытым. На телефонах и планшетах —
+// как обычно: там t.me сразу открывает приложение, а новая вкладка
+// осталась бы пустой. «Десктоп» = устройство с мышью/тачпадом.
+function initExternalLinks() {
+  const desktop = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const links = [...document.querySelectorAll('a[href]')]
+    .filter((a) => /^https?:$/.test(a.protocol) && a.hostname !== location.hostname);
+
+  const apply = () => links.forEach((a) => {
+    if (desktop.matches) {
+      a.target = '_blank';
+      a.rel = 'noopener';
+    } else {
+      a.removeAttribute('target');
+      a.removeAttribute('rel');
+    }
+  });
+
+  apply();
+  desktop.addEventListener('change', apply);
+}
+
+initExternalLinks();
 document.querySelectorAll('[data-video]').forEach(initVideo);
 document.querySelectorAll('[data-audio]').forEach(initAudio);
 document.querySelectorAll('[data-slider]').forEach(initSlider);

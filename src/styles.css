@@ -332,6 +332,53 @@ button[data-todo] {
   background: var(--c-wine);
 }
 
+/* Стрелки ленты: только на десктопе (на телефоне ленту листают свайпом) */
+.slider__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.slider__arrow {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .slider__arrow {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--c-wine);
+    border-radius: var(--radius-pill);
+    background: var(--c-white);
+    color: var(--c-wine);
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+  }
+
+  .slider__arrow:hover:not(:disabled) {
+    background: var(--c-wine);
+    color: var(--c-light);
+  }
+
+  .slider__arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .slider__arrow svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
 @media (min-width: 1024px) {
   .slider__track {
     display: grid;
@@ -1664,6 +1711,7 @@ button[data-todo] {
   height: clamp(44px, 44px + 8 * var(--fl), 52px);
   border-radius: var(--radius-pill);
   background: var(--c-ph);
+  object-fit: cover;
 }
 
 .review__name {
@@ -1678,6 +1726,19 @@ button[data-todo] {
 @media (min-width: 1024px) {
   .review__text p {
     color: var(--c-ink);
+  }
+
+  /* Отзывы и на десктопе листаются по горизонтали: в кадре 3 карточки
+     той же ширины, что в сетке на 3 колонки, остальные — по стрелкам */
+  .reviews__track {
+    display: flex;
+    padding-block: 4px 16px;
+    overflow-x: auto;
+    scroll-padding-inline: 0;
+  }
+
+  .reviews__track > * {
+    width: calc((100% - 2 * 24px) / 3);
   }
 }
 
